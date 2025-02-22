@@ -1,5 +1,17 @@
 {
   "dockerComposeFile": "docker-compose.devcontainer.yaml",
   "service": "guppy",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "formulahendry.auto-rename-tag",
+        "dsznajder.es7-react-js-snippets",
+        "esbenp.prettier-vscode",
+        "YoavBls.pretty-ts-errors",
+        "bradlc.vscode-tailwindcss",
+        "ms-playwright.playwright"
+      ]
+    }
+  }
 }

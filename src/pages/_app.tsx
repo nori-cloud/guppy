@@ -1,3 +1,4 @@
+import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -12,12 +13,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
-    >
-      <Component {...pageProps} />
-    </div>
+    <SessionProvider session={session}>
+      <div
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
+      >
+        <Component {...pageProps} />
+      </div>
+    </SessionProvider>
   );
 }

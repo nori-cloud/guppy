@@ -8,10 +8,14 @@ const envSchema = z.object({
   NextAuth: z.object({
     Secret: z.string(),
     Discord: providersSchema,
+    Github: providersSchema,
+  }),
+  Drizzle: z.object({
+    DatabaseUrl: z.string(),
   }),
 });
 
-export const env = {
+export const env = envSchema.parse({
   NextAuth: {
     Secret: process.env.NEXTAUTH_SECRET as string,
     Discord: {
@@ -25,5 +29,5 @@ export const env = {
   },
   Drizzle: {
     DatabaseUrl: process.env.DATABASE_URL as string,
-  }
-};
+  },
+});

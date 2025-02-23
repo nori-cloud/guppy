@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth/next";
 import { DashboardRoute } from "../dashboard/route";
 import { AuthRoute } from "./route";
 
-export function AuthMenu() {
-  const { data: session } = useSession();
+export async function AuthMenu() {
+  const session = await getServerSession(authOptions);
+
   return (
     <div className="flex items-center gap-2">
       {!!session && (

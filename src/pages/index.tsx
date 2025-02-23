@@ -1,13 +1,22 @@
-import { SignInForm } from "@/module/auth/sign-in-form";
+import { AuthMenu } from "@/module/auth/menu";
 import Image from "next/image";
+
+function Header() {
+  return (
+    <header className="fixed top-4 inset-x-0 mx-auto px-3 py-2 flex items-center rounded-md justify-between z-50 max-w-5xl bg-foreground backdrop-blur-sm">
+      <h2 className="text-2xl text-neutral-900">Guppy</h2>
+      <AuthMenu />
+    </header>
+  );
+}
 
 export default function IndexPage() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <Header />
+
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1 className="text-4xl font-bold">Guppy</h1>
-
-        <SignInForm />
 
         <Image
           className="dark:invert"

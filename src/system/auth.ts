@@ -14,7 +14,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
         isSigningUp: { label: "isSigningUp", type: "checkbox" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const user = {
           id: "1",
           name: "John Doe",

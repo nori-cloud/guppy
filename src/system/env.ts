@@ -13,10 +13,13 @@ const envSchema = z.object({
 
 export const env = {
   NextAuth: {
-    Secret: process.env.NEXTAUTH_SECRET,
+    Secret: process.env.NEXTAUTH_SECRET as string,
     Discord: {
-      ID: process.env.AUTH_DISCORD_ID,
-      Secret: process.env.AUTH_DISCORD_SECRET,
+      ID: process.env.AUTH_DISCORD_ID as string,
+      Secret: process.env.AUTH_DISCORD_SECRET as string,
     },
   },
+  Drizzle: {
+    DatabaseUrl: process.env.DATABASE_URL as string,
+  }
 };

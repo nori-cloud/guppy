@@ -1,9 +1,12 @@
+import { db } from "@/db";
 import { env } from "@/system/env";
-import NextAuth from "next-auth";
+import { DrizzleAdapter } from '@auth/drizzle-adapter';
+import NextAuth, { NextAuthOptions } from "next-auth";
 import Discord from "next-auth/providers/discord";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
+  adapter: DrizzleAdapter(db),
   providers: [
     // CredentialsProvider({
     //   name: "Credentials",
@@ -27,7 +30,7 @@ export const authOptions = {
   ],
   pages: {
     signIn: "/auth/sign-in",
-  }
+  },
 };
 
 export default NextAuth(authOptions);

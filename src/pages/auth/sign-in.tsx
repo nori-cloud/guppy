@@ -11,7 +11,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
 
   if (session) {
-    return { redirect: { destination: DashboardRoute.Index.Link } };
+    return { redirect: { destination: DashboardRoute.Index.Url } };
   }
 
   const rawProviders = (await getProviders()) ?? [];

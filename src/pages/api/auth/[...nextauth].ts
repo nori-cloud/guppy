@@ -3,6 +3,7 @@ import { env } from "@/system/env";
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import NextAuth, { NextAuthOptions } from "next-auth";
 import Discord from "next-auth/providers/discord";
+import Github from "next-auth/providers/github";
 
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
@@ -23,6 +24,10 @@ export const authOptions: NextAuthOptions = {
     //     };
     //   },
     // }),
+    Github({
+      clientId: env.NextAuth.Github.ID,
+      clientSecret: env.NextAuth.Github.Secret,
+    }),
     Discord({
       clientId: env.NextAuth.Discord.ID,
       clientSecret: env.NextAuth.Discord.Secret,

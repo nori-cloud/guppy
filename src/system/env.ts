@@ -18,6 +18,10 @@ export const env = {
       ID: process.env.AUTH_DISCORD_ID as string,
       Secret: process.env.AUTH_DISCORD_SECRET as string,
     },
+    Github: {
+      ID: process.env.AUTH_GITHUB_ID as string,
+      Secret: process.env.AUTH_GITHUB_SECRET as string,
+    },
   },
   Drizzle: {
     DatabaseUrl: process.env.DATABASE_URL as string,

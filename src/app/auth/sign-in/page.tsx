@@ -1,32 +1,30 @@
-import { OAuthButton } from "@/module/auth/components/client";
-import { DashboardRoute } from "@/module/dashboard/route";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getServerSession } from "next-auth/next";
-import { getProviders } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { signIn } from "@/system/auth";
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
-
-  if (session) {
-    redirect(DashboardRoute.Index.Url);
-  }
-
-  const rawProviders = (await getProviders()) ?? [];
-
-  const providers = Object.values(rawProviders).map((provider) => ({
-    id: provider.id,
-    name: provider.name,
-  }));
-
   return (
     <div className="flex flex-col items-center mt-[25dvh] max-w-md mx-auto h-screen">
       <h1 className="text-4xl font-bold mb-12">Welcome to Guppy</h1>
 
-      <div className="flex flex-col gap-4 w-full">
-        {Object.values(providers).map((provider) => (
-          <OAuthButton key={provider.id} provider={provider.id} />
-        ))}
+      <div className="flex flex-col gap-4">
+        <form
+          className="w-full"
+          action={async () => {
+            "use server";
+            await signIn("github");
+          }}
+        >
+          <Button type="submit">Signin with GitHub</Button>
+        </form>
+        <form
+          className="w-full"
+          action={async () => {
+            "use server";
+            await signIn("discord");
+          }}
+        >
+          <Button type="submit">Signin with Discord</Button>
+        </form>
       </div>
     </div>
   );

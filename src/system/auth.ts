@@ -1,6 +1,6 @@
 import { db } from "@/db"
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
-import NextAuth, { type NextAuthOptions } from "next-auth"
+import NextAuth, { type NextAuthConfig } from "next-auth"
 import { baseConfig } from "./auth.config"
 
 /**
@@ -9,7 +9,7 @@ import { baseConfig } from "./auth.config"
  * 
  * all for edge compatibility
  */
-export const adaptorConfig: NextAuthOptions = {
+export const adaptorConfig: NextAuthConfig = {
   ...baseConfig,
   adapter: DrizzleAdapter(db),
   session: {

@@ -1,9 +1,9 @@
-import { type NextAuthOptions } from "next-auth"
+import { type NextAuthConfig } from "next-auth"
 import Discord from "next-auth/providers/discord"
 import Github from "next-auth/providers/github"
 import { env } from "./env"
 
-export const baseConfig: NextAuthOptions = {
+export const baseConfig: NextAuthConfig = {
   pages: {
     signIn: "/auth/sign-in",
   },

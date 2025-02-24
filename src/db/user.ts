@@ -1,6 +1,7 @@
 import { auth } from "@/system/auth";
 import { db } from ".";
 
+export type CurrentUser = Awaited<ReturnType<typeof getCurrentUser>>;
 export async function getCurrentUser() {
   const session = await auth();
 

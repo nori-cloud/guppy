@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:push": "pnpm drizzle-kit push",
+    "db:visualizer": "pnpm dlx drizzle-lab visualizer"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.4",

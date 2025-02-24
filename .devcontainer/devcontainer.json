@@ -10,7 +10,8 @@
         "esbenp.prettier-vscode",
         "YoavBls.pretty-ts-errors",
         "bradlc.vscode-tailwindcss",
-        "ms-playwright.playwright"
+        "ms-playwright.playwright",
+        "rphlmr.vscode-drizzle-orm"
       ]
     }
   },

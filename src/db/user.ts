@@ -1,15 +1,15 @@
-import { auth } from "@/system/auth";
-import { db } from ".";
+import { auth } from "@/system/auth"
+import { db } from "."
 
-export type CurrentUser = Awaited<ReturnType<typeof getCurrentUser>>;
+export type CurrentUser = Awaited<ReturnType<typeof getCurrentUser>>
 export async function getCurrentUser() {
-  const session = await auth();
+  const session = await auth()
 
   if (!session?.user?.email) {
-    throw new Error("User not found");
+    throw new Error("User not found")
   }
 
-  const { email } = session.user;
+  const { email } = session.user
 
   const currentUser = await db.query.users.findFirst({
     columns: {
@@ -26,10 +26,10 @@ export async function getCurrentUser() {
         },
       },
     },
-  });
+  })
 
   if (!currentUser) {
-    return null;
+    return null
   }
 
   return {
@@ -43,5 +43,5 @@ export async function getCurrentUser() {
       name: userToProfile.profile.name,
       image: userToProfile.profile.image,
     })),
-  };
+  }
 }

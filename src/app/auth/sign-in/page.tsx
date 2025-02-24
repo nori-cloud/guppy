@@ -1,17 +1,17 @@
-import { Button } from "@/components/ui/button";
-import { signIn } from "@/system/auth";
+import { Button } from "@/components/ui/button"
+import { signIn } from "@/system/auth"
 
 export default async function Page() {
   return (
-    <div className="flex flex-col items-center mt-[25dvh] max-w-md mx-auto h-screen">
-      <h1 className="text-4xl font-bold mb-12">Welcome to Guppy</h1>
+    <div className="mx-auto mt-[25dvh] flex h-screen max-w-md flex-col items-center">
+      <h1 className="mb-12 text-4xl font-bold">Welcome to Guppy</h1>
 
       <div className="flex flex-col gap-4">
         <form
           className="w-full"
           action={async () => {
-            "use server";
-            await signIn("github");
+            "use server"
+            await signIn("github")
           }}
         >
           <Button type="submit">Signin with GitHub</Button>
@@ -19,13 +19,13 @@ export default async function Page() {
         <form
           className="w-full"
           action={async () => {
-            "use server";
-            await signIn("discord");
+            "use server"
+            await signIn("discord")
           }}
         >
           <Button type="submit">Signin with Discord</Button>
         </form>
       </div>
     </div>
-  );
+  )
 }

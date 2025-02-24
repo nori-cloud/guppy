@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations } from "drizzle-orm"
 import {
   boolean,
   integer,
@@ -6,7 +6,7 @@ import {
   primaryKey,
   text,
   timestamp,
-} from "drizzle-orm/pg-core";
+} from "drizzle-orm/pg-core"
 
 // shared stuffs
 export const users = pgTable("user", {
@@ -17,11 +17,11 @@ export const users = pgTable("user", {
   email: text("email").unique().notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
-});
+})
 
 export const userRelations = relations(users, ({ many }) => ({
   usersToProfiles: many(usersToProfiles),
-}));
+}))
 
 // next auth stuffs
 export const accounts = pgTable(
@@ -47,8 +47,8 @@ export const accounts = pgTable(
         columns: [account.provider, account.providerAccountId],
       }),
     },
-  ]
-);
+  ],
+)
 
 export const sessions = pgTable("session", {
   sessionToken: text("sessionToken").primaryKey(),
@@ -56,7 +56,7 @@ export const sessions = pgTable("session", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
-});
+})
 
 export const verificationTokens = pgTable(
   "verificationToken",
@@ -71,8 +71,8 @@ export const verificationTokens = pgTable(
         columns: [verificationToken.identifier, verificationToken.token],
       }),
     },
-  ]
-);
+  ],
+)
 
 export const authenticators = pgTable(
   "authenticator",
@@ -94,8 +94,8 @@ export const authenticators = pgTable(
         columns: [authenticator.userId, authenticator.credentialID],
       }),
     },
-  ]
-);
+  ],
+)
 
 // guppy stuffs
 export const profiles = pgTable("profile", {
@@ -107,14 +107,14 @@ export const profiles = pgTable("profile", {
   image: text("image"),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
-});
+})
 
 export const profileRelations = relations(profiles, ({ many }) => ({
   usersToProfiles: many(usersToProfiles),
   links: many(links),
-}));
+}))
 
-export type ProfileRole = "owner" | "collaborator";
+export type ProfileRole = "owner" | "collaborator"
 export const usersToProfiles = pgTable(
   "users_to_profiles",
   {
@@ -126,8 +126,8 @@ export const usersToProfiles = pgTable(
       .references(() => profiles.id),
     role: text("role").$type<ProfileRole>().notNull(),
   },
-  (t) => [primaryKey({ columns: [t.userId, t.profileId] })]
-);
+  (t) => [primaryKey({ columns: [t.userId, t.profileId] })],
+)
 export const usersToProfilesRelations = relations(
   usersToProfiles,
   ({ one }) => ({
@@ -139,10 +139,10 @@ export const usersToProfilesRelations = relations(
       fields: [usersToProfiles.userId],
       references: [users.id],
     }),
-  })
-);
+  }),
+)
 
-export type LinkType = "generic" | "youtube";
+export type LinkType = "generic" | "youtube"
 export const links = pgTable("link", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   profileId: text("profileId")
@@ -153,11 +153,11 @@ export const links = pgTable("link", {
   url: text("url").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
-});
+})
 
 export const linkRelations = relations(links, ({ one }) => ({
   profile: one(profiles, {
     fields: [links.profileId],
     references: [profiles.id],
   }),
-}));
+}))

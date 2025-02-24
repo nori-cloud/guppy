@@ -1,8 +1,8 @@
-import { z } from "zod";
+import { z } from "zod"
 const providersSchema = z.object({
   ID: z.string(),
   Secret: z.string(),
-});
+})
 
 const envSchema = z.object({
   NextAuth: z.object({
@@ -13,7 +13,7 @@ const envSchema = z.object({
   Drizzle: z.object({
     DatabaseUrl: z.string(),
   }),
-});
+})
 
 export const env = envSchema.parse({
   NextAuth: {
@@ -30,4 +30,4 @@ export const env = envSchema.parse({
   Drizzle: {
     DatabaseUrl: process.env.DATABASE_URL as string,
   },
-});
+})

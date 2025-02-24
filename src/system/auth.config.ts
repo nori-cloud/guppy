@@ -15,6 +15,6 @@ export const baseConfig: NextAuthConfig = {
     Discord({
       clientId: env.NextAuth.Discord.ID,
       clientSecret: env.NextAuth.Discord.Secret,
-    })
-  ]
+    }),
+  ],
 }

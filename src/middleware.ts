@@ -1,5 +1,5 @@
-import NextAuth from "next-auth";
-import { baseConfig } from "./system/auth.config";
+import NextAuth from "next-auth"
+import { baseConfig } from "./system/auth.config"
 
 /**
  * Middleware are running in the edge runtime
@@ -9,10 +9,10 @@ import { baseConfig } from "./system/auth.config";
  *
  */
 
-export const { auth } = NextAuth(baseConfig);
+export const { auth } = NextAuth(baseConfig)
 
-export default auth;
+export default auth
 
 export const config = {
   matcher: ["/dashboard", "/dashboard/:path*"],
-};
+}

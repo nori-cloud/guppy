@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,19 +7,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { CurrentUser } from "@/db/user";
-import { signOut } from "@/system/auth";
+} from "@/components/ui/dropdown-menu"
+import { CurrentUser } from "@/db/user"
+import { signOut } from "@/system/auth"
 
 export default function UserMenu({ user }: { user: CurrentUser }) {
   if (!user) {
-    return <></>;
+    return <></>
   }
 
   const initial = user.name
     ?.split(" ")
     .map((name) => name[0])
-    .join("");
+    .join("")
 
   return (
     <DropdownMenu>
@@ -29,14 +29,14 @@ export default function UserMenu({ user }: { user: CurrentUser }) {
           <AvatarFallback>{initial}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 mx-4 my-2">
+      <DropdownMenuContent className="mx-4 my-2 w-56">
         <DropdownMenuLabel>{`Hi, ${user.name}!`}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <form
             action={async () => {
-              "use server";
-              await signOut();
+              "use server"
+              await signOut()
             }}
           >
             <button type="submit">Sign out</button>
@@ -45,5 +45,5 @@ export default function UserMenu({ user }: { user: CurrentUser }) {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

@@ -1,24 +1,24 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { createProfile } from "@/db/profile";
-import { getCurrentUser } from "@/db/user";
-import { DashboardRoute } from "@/module/dashboard/route";
-import { revalidatePath } from "next/cache";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { createProfile } from "@/db/profile"
+import { getCurrentUser } from "@/db/user"
+import { DashboardRoute } from "@/module/dashboard/route"
+import { revalidatePath } from "next/cache"
 
 export default async function Page() {
-  const currentUser = await getCurrentUser();
+  const currentUser = await getCurrentUser()
 
   if (!currentUser) {
-    return <>wooo, something is really wrong</>;
+    return <>wooo, something is really wrong</>
   }
 
   return (
-    <div className="max-w-5xl mx-auto h-screen">
+    <div className="mx-auto h-screen max-w-5xl">
       <h1>Dashboard</h1>
 
       <p>Welcome {currentUser.name}</p>
 
-      <pre className="p-4 rounded-md overflow-y-auto">
+      <pre className="overflow-y-auto rounded-md p-4">
         {JSON.stringify(currentUser, null, 2)}
       </pre>
 
@@ -26,18 +26,18 @@ export default async function Page() {
         <CreateProfileForm userId={currentUser.id} />
       )}
     </div>
-  );
+  )
 }
 
 function CreateProfileForm({ userId }: { userId: string }) {
   async function action() {
-    "use server";
+    "use server"
 
     await createProfile(userId, {
       name: "test",
-    });
+    })
 
-    revalidatePath(DashboardRoute.Index.Url);
+    revalidatePath(DashboardRoute.Index.Url)
   }
 
   return (
@@ -49,5 +49,5 @@ function CreateProfileForm({ userId }: { userId: string }) {
 
       <Button type="submit">Create profile</Button>
     </form>
-  );
+  )
 }

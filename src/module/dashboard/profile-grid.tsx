@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge"
 import { Profile } from "@/db/model"
 import { useOptimistic, useState, useTransition } from "react"
 import { z } from "zod"
+import { ProfilePage } from "../profile/route"
 import { createProfile, deleteProfile } from "./action"
 import { Icon } from "./component/icon"
 
@@ -60,10 +61,17 @@ function CreateProfileForm({
       )}
 
       <div className="mt-auto flex justify-end gap-2">
-        <button type="submit" disabled={isPending}>
+        <button
+          className="hover:bg-foreground/20 cursor-pointer rounded-md p-1"
+          type="submit"
+          disabled={isPending}
+        >
           <Icon icon="check" />
         </button>
-        <button onClick={() => setIsCreating(false)}>
+        <button
+          className="hover:bg-foreground/20 cursor-pointer rounded-md p-1"
+          onClick={() => setIsCreating(false)}
+        >
           <Icon icon="cross" />
         </button>
       </div>
@@ -128,12 +136,14 @@ export function ProfileGrid({ profiles }: { profiles: Profile[] }) {
               </button>
             </form>
 
-            <button
-              disabled={profile.id === "optimistic"}
-              className="hover:border-background/80 border-background/40 cursor-pointer rounded-md border px-2 py-1 transition-colors"
-            >
-              <Icon icon="right-arrow" className="size-4" />
-            </button>
+            <ProfilePage.Link id={profile.id}>
+              <button
+                disabled={profile.id === "optimistic"}
+                className="hover:border-background/80 border-background/40 cursor-pointer rounded-md border px-2 py-1 transition-colors"
+              >
+                <Icon icon="right-arrow" className="size-4" />
+              </button>
+            </ProfilePage.Link>
           </div>
         </div>
       ))}

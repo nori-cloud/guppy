@@ -1,4 +1,8 @@
-export type RouteObject = {
+export type RouteObject<
+  TParams extends Record<string, string> = Record<string, string>,
+> = {
   Url: string
-  Link: ({ children }: { children: React.ReactNode }) => React.ReactNode
+  Link: ({
+    children,
+  }: { children: React.ReactNode } & TParams) => React.ReactNode
 }

@@ -1,76 +1,146 @@
 "use client"
 import { Badge } from "@/components/ui/badge"
 import { Profile } from "@/db/model"
-import { useOptimistic, useState, useTransition } from "react"
+import {
+  useEffect,
+  useOptimistic,
+  useRef,
+  useState,
+  useTransition,
+} from "react"
 import { z } from "zod"
 import { ProfilePage } from "../profile/route"
-import { createProfile, deleteProfile } from "./action"
+import { createProfile, deleteProfile, validateProfileName } from "./action"
 import { Icon } from "./component/icon"
 
-const createProfileSchema = z.object({
-  name: z.string().min(1),
-})
+const profileNameSchema = z
+  .string()
+  .nonempty({ message: "cannot be empty" })
+  .max(24, { message: "cannot be longer than 24 characters" })
+  .regex(/^[a-zA-Z0-9_-]+$/, {
+    message: "can only contain letters, numbers, underscores, and hyphens",
+  })
 
 function CreateProfileForm({
   onCreate,
 }: {
   onCreate: (name: string) => Promise<void>
 }) {
-  const [isCreating, setIsCreating] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [isPending, startTransition] = useTransition()
+  const [isCreateProfile, setIsCreateProfile] = useState(false)
+  const [isCreating, startCreateProfileTransition] = useTransition()
+  const [profileName, setProfileName] = useState("")
 
-  async function action(formData: FormData) {
-    const name = formData.get("name")
-
-    const result = createProfileSchema.safeParse({ name })
-
-    if (!result.success) {
-      setError(result.error.message)
-      return
-    }
-
-    setIsCreating(false)
+  async function action() {
+    setIsCreateProfile(false)
     setError(null)
 
-    startTransition(async () => {
+    startCreateProfileTransition(async () => {
       try {
-        await onCreate(result.data.name)
+        await onCreate(profileName)
       } catch (error) {
-        setIsCreating(true)
+        setIsCreateProfile(true)
         setError(`Failed to create profile. Please try again. [${error}]`)
       }
     })
   }
 
-  return isCreating ? (
+  const [isDirty, setIsDirty] = useState(false)
+  const [isProfileNameValid, setIsProfileNameValid] = useState(false)
+  const [isValidating, startValidateProfileNameTransition] = useTransition()
+  const [error, setError] = useState<string | null>(null)
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null)
+
+  async function handleNameChange(name: string) {
+    setProfileName(name)
+    setIsDirty(true)
+    setError(null)
+
+    const result = profileNameSchema.safeParse(name)
+
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current)
+    }
+
+    if (!result.success) {
+      setError(result.error.errors[0].message)
+      setIsProfileNameValid(false)
+      setIsDirty(false)
+      return
+    }
+
+    debounceTimeout.current = setTimeout(() => {
+      startValidateProfileNameTransition(async () => {
+        const isValid = await validateProfileName(name)
+        setIsProfileNameValid(isValid)
+        setIsDirty(false)
+      })
+    }, 500)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current)
+      }
+    }
+  }, [])
+
+  function handleCancel() {
+    setIsCreateProfile(false)
+    setProfileName("")
+    setError(null)
+  }
+
+  return isCreateProfile ? (
     <form
       action={action}
-      className="border-foreground/80 text-foreground/80 hover:text-foreground hover:border-foregroun flex cursor-pointer flex-col rounded-md border p-4 transition-colors"
+      className="border-foreground/80 text-foreground/80 flex flex-col rounded-md border p-4 transition-colors"
     >
       <input
         type="text"
-        name="name"
+        className="border-foreground/40 focus:border-foreground hover:border-foreground/80 border-b transition-colors focus:outline-none"
+        value={profileName}
+        onChange={(e) => handleNameChange(e.target.value)}
         autoFocus={true}
         placeholder="Profile Name"
       />
 
+      <p className="mt-2 text-wrap break-all underline">
+        {`${window.location.origin}/${profileName}`}
+        {isValidating || isDirty ? (
+          <Icon
+            icon="spinner"
+            className="ml-1 inline-block size-4 animate-spin"
+          />
+        ) : isProfileNameValid ? (
+          <Icon
+            icon="check-circle"
+            className="ml-1 inline-block size-4 text-green-400"
+          />
+        ) : (
+          <Icon
+            icon="cross-circle"
+            className="ml-1 inline-block size-4 text-red-400"
+          />
+        )}
+      </p>
+
       {error && <p className="text-red-500">{error}</p>}
-      {isPending && (
+      {isCreating && (
         <span className="text-foreground/80 italic">Creating...</span>
       )}
 
       <div className="mt-auto flex justify-end gap-2">
         <button
-          className="hover:bg-foreground/20 cursor-pointer rounded-md p-1"
+          className="hover:bg-foreground/20 cursor-pointer rounded-md p-1 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
           type="submit"
-          disabled={isPending}
+          disabled={isCreating || !isProfileNameValid}
         >
           <Icon icon="check" />
         </button>
         <button
           className="hover:bg-foreground/20 cursor-pointer rounded-md p-1"
-          onClick={() => setIsCreating(false)}
+          onClick={handleCancel}
         >
           <Icon icon="cross" />
         </button>
@@ -79,7 +149,7 @@ function CreateProfileForm({
   ) : (
     <button
       className="border-foreground/80 text-foreground/80 hover:text-foreground hover:border-foregroun cursor-pointer rounded-md border border-dashed p-4 transition-colors"
-      onClick={() => setIsCreating(true)}
+      onClick={() => setIsCreateProfile(true)}
     >
       + New Profile
     </button>

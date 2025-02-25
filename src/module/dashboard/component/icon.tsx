@@ -1,10 +1,22 @@
-import { ArrowRight, Check, LucideProps, Trash, X } from "lucide-react"
+import {
+  ArrowRight,
+  Check,
+  CheckCircle,
+  Loader2,
+  LucideProps,
+  Trash,
+  X,
+  XCircle,
+} from "lucide-react"
 
 const icons = {
   ["right-arrow"]: ArrowRight,
   trash: Trash,
   check: Check,
   cross: X,
+  spinner: Loader2,
+  ["check-circle"]: CheckCircle,
+  ["cross-circle"]: XCircle,
 }
 
 export type Icons = keyof typeof icons

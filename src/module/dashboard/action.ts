@@ -21,6 +21,18 @@ export async function createProfile(name: string) {
   revalidatePath(DashboardRoute.Index.Url)
 }
 
+export async function validateProfileName(name: string) {
+  const profile = await db.query.profiles.findFirst({
+    where: (profiles, { eq }) => eq(profiles.name, name),
+  })
+
+  if (profile) {
+    return false
+  }
+
+  return true
+}
+
 export async function deleteProfile(id: string) {
   const currentUser = await getCurrentUser()
 
@@ -47,7 +59,7 @@ export async function deleteProfile(id: string) {
       .delete(usersToProfiles)
       .where(
         eq(usersToProfiles.userId, currentUser.id) &&
-          eq(usersToProfiles.profileId, id),
+        eq(usersToProfiles.profileId, id),
       )
     await tx.delete(profiles).where(eq(profiles.id, id))
   })

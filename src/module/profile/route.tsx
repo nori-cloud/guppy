@@ -2,8 +2,8 @@ import { RouteObject } from "@/system/type"
 import Link from "next/link"
 
 export const ProfilePage: RouteObject<{ id: string }> = {
-  Url: "/dashboard/profile",
+  Url: "/profile",
   Link: ({ children, id }) => (
-    <Link href={`/dashboard/profile/${id}`}>{children}</Link>
+    <Link href={`${ProfilePage.Url}/${id}`}>{children}</Link>
   ),
 }

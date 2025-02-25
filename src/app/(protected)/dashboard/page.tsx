@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input"
 import { createProfile } from "@/db/profile"
 import { getCurrentUser } from "@/db/user"
 import { ProfileGrid } from "@/module/dashboard/profile-grid"
-import { DashboardRoute } from "@/module/dashboard/route"
+import { DashboardPage } from "@/module/dashboard/route"
 import { revalidatePath } from "next/cache"
 
 export default async function Page() {
@@ -38,7 +38,7 @@ function InitialProfileForm() {
       name: "test",
     })
 
-    revalidatePath(DashboardRoute.Index.Url)
+    revalidatePath(DashboardPage.Url)
   }
 
   return (

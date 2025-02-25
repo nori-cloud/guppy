@@ -1,5 +1,5 @@
 export type RouteObject<
-  TParams extends Record<string, string> = Record<string, string>,
+  TParams extends object = object,
 > = {
   Url: string
   Link: ({

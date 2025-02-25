@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
   output: "standalone",
   redirects: async () => [
     {
-      // because we don't have a /dashboard/profile page
-      source: "/dashboard/profile",
+      // because we don't have a /profile page
+      source: "/profile",
       destination: "/dashboard",
       permanent: true,
     },

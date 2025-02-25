@@ -1,5 +1,6 @@
+import { getCurrentUser } from "@/db/user"
 import { AuthRoute } from "@/module/auth/route"
-import { auth } from "@/system/auth"
+import UserMenu from "@/module/dashboard/user-menu"
 import { redirect } from "next/navigation"
 import React from "react"
 
@@ -8,10 +9,16 @@ export default async function ProtectedLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await auth()
-  if (!session) {
+  const currentUser = await getCurrentUser()
+
+  if (!currentUser) {
     redirect(AuthRoute.SignIn.Url)
   }
 
-  return children
+  return (
+    <>
+      {children}
+      <UserMenu user={currentUser} />
+    </>
+  )
 }

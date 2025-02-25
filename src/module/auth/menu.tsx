@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { auth } from "@/system/auth"
-import { DashboardRoute } from "../dashboard/route"
+import { DashboardPage } from "../dashboard/route"
 import { AuthRoute } from "./route"
 
 export async function AuthMenu() {
@@ -9,9 +9,9 @@ export async function AuthMenu() {
   return (
     <div className="flex items-center gap-2">
       {!!session && (
-        <DashboardRoute.Index.Link>
+        <DashboardPage.Link>
           <Button>Dashboard</Button>
-        </DashboardRoute.Index.Link>
+        </DashboardPage.Link>
       )}
 
       {!session && (

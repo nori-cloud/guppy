@@ -5,7 +5,7 @@ import { profiles, usersToProfiles } from "@/db/schema"
 import { getCurrentUser } from "@/db/user"
 import { eq } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
-import { DashboardRoute } from "./route"
+import { DashboardPage } from "./route"
 
 export async function createProfile(name: string) {
   const currentUser = await getCurrentUser()
@@ -18,7 +18,7 @@ export async function createProfile(name: string) {
     role: "owner",
   })
 
-  revalidatePath(DashboardRoute.Index.Url)
+  revalidatePath(DashboardPage.Url)
 }
 
 export async function validateProfileName(name: string) {
@@ -64,5 +64,5 @@ export async function deleteProfile(id: string) {
     await tx.delete(profiles).where(eq(profiles.id, id))
   })
 
-  revalidatePath(DashboardRoute.Index.Url)
+  revalidatePath(DashboardPage.Url)
 }

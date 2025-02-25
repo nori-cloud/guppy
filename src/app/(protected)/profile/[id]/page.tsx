@@ -1,4 +1,4 @@
-import LinkList from "../../../../../module/profile/link-list"
+import LinkList from "@/module/profile/link-list"
 
 export default async function Page({
   params,

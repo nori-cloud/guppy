@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { createProfile } from "@/db/profile"
+import { profileDB } from "@/db/profile"
 import { getCurrentUser } from "@/db/user"
 import { ProfileGrid } from "@/module/dashboard/profile-grid"
 import { DashboardPage } from "@/module/dashboard/route"
@@ -31,11 +31,11 @@ export default async function Page() {
 }
 
 function InitialProfileForm() {
-  async function action() {
+  async function action(formData: FormData) {
     "use server"
 
-    await createProfile({
-      name: "test",
+    await profileDB.create({
+      name: formData.get("name") as string,
     })
 
     revalidatePath(DashboardPage.Url)

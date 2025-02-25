@@ -8,7 +8,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { CurrentUser } from "@/db/user"
+import { CurrentUser } from "@/db/model"
 import { signOut } from "@/system/auth"
 
 export default function UserMenu({ user }: { user: CurrentUser }) {

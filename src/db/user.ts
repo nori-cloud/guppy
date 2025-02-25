@@ -1,7 +1,6 @@
 import { auth } from "@/system/auth"
 import { db } from "."
 
-export type CurrentUser = Awaited<ReturnType<typeof getCurrentUser>>
 export async function getCurrentUser() {
   const session = await auth()
 
@@ -29,7 +28,7 @@ export async function getCurrentUser() {
   })
 
   if (!currentUser) {
-    return null
+    throw new Error("User don't exist in database")
   }
 
   return {
@@ -38,7 +37,7 @@ export async function getCurrentUser() {
     email: currentUser.email,
     image: currentUser.image,
     profiles: currentUser.usersToProfiles.map((userToProfile) => ({
-      profileId: userToProfile.profileId,
+      id: userToProfile.profileId,
       role: userToProfile.role,
       name: userToProfile.profile.name,
       image: userToProfile.profile.image,

@@ -1,4 +1,3 @@
-import { eq } from "drizzle-orm"
 import { PgInsertValue } from "drizzle-orm/pg-core"
 import { db } from "."
 import { profiles, usersToProfiles } from "./schema"
@@ -13,38 +12,6 @@ export async function createProfile(data: PgInsertValue<typeof profiles>) {
     userId: currentUser?.id,
     profileId: profile[0].id,
     role: "owner",
-  })
-}
-
-export async function deleteProfile(id: string) {
-  const currentUser = await getCurrentUser()
-
-  if (!currentUser) {
-    throw new Error("User not found")
-  }
-
-  const userToProfile = await db.query.usersToProfiles.findFirst({
-    where: (usersToProfiles, { eq }) =>
-      eq(usersToProfiles.userId, currentUser.id) &&
-      eq(usersToProfiles.role, "owner") &&
-      eq(usersToProfiles.profileId, id),
-    with: {
-      profile: true,
-    },
-  })
-
-  if (!userToProfile) {
-    throw new Error("Profile not found")
-  }
-
-  await db.transaction(async (tx) => {
-    await tx
-      .delete(usersToProfiles)
-      .where(
-        eq(usersToProfiles.userId, currentUser.id) &&
-          eq(usersToProfiles.profileId, id),
-      )
-    await tx.delete(profiles).where(eq(profiles.id, id))
   })
 }
 

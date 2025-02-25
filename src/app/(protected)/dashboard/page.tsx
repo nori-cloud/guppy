@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { createProfile } from "@/db/profile"
 import { getCurrentUser } from "@/db/user"
-import { ProfileGrid } from "@/module/dashboard/create-profile-form"
+import { ProfileGrid } from "@/module/dashboard/profile-grid"
 import { DashboardRoute } from "@/module/dashboard/route"
 import { revalidatePath } from "next/cache"
 

@@ -24,6 +24,9 @@ async function getById(id: string) {
       image: true,
     },
     where: (profiles, { eq }) => eq(profiles.id, id),
+    with: {
+      links: true,
+    },
   })
 
   return profile

@@ -1,4 +1,6 @@
 "use server"
+import { linkDB } from "@/db/link"
+import { CreateLinkInput } from "@/db/model"
 import { profileDB } from "@/db/profile"
 
 export async function getProfileById(id: string) {
@@ -9,4 +11,8 @@ export async function getProfileById(id: string) {
   }
 
   return profile
+}
+
+export async function createLink(link: CreateLinkInput) {
+  await linkDB.create(link)
 }

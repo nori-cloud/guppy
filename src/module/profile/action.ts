@@ -23,4 +23,12 @@ export async function createLink(link: CreateLinkInput) {
 
 export async function updateLink(link: Link) {
   await linkDB.update(link)
+
+  revalidatePath(`${ProfilePage.Url}/${link.profileId}`)
+}
+
+export async function reorderLinks(links: Link[]) {
+  await linkDB.updateMany(links)
+
+  revalidatePath(`${ProfilePage.Url}/${links[0].profileId}`)
 }

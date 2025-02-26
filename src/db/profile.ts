@@ -28,10 +28,13 @@ async function getById(id: string) {
       links: {
         columns: {
           id: true,
+          profileId: true,
+          order: true,
           url: true,
           title: true,
           type: true,
         },
+        orderBy: (links, { asc }) => asc(links.order),
       },
     },
   })

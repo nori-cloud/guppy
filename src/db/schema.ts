@@ -151,6 +151,7 @@ export const links = pgTable("link", {
   type: text("type").$type<LinkType>().notNull(),
   title: text("title").notNull(),
   url: text("url").notNull(),
+  order: integer("order").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
 })

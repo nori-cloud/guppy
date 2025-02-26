@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button"
-import { createLink, getProfileById } from "@/module/profile/action"
+import { Link } from "@/db/model"
+import {
+  createLink,
+  getProfileById,
+  reorderLinks,
+} from "@/module/profile/action"
 import LinkList from "@/module/profile/link-list"
-import { ProfilePage } from "@/module/profile/route"
-import { revalidatePath } from "next/cache"
 
 export default async function Page({
   params,
@@ -13,6 +16,11 @@ export default async function Page({
 
   const profile = await getProfileById(id)
 
+  const handleUpdateLink = async (links: Link[]) => {
+    "use server"
+    await reorderLinks(links)
+  }
+
   return (
     <div>
       <h1 className="mb-6 text-2xl font-bold">Profile {profile.name}</h1>
@@ -20,25 +28,25 @@ export default async function Page({
       <form
         action={async () => {
           "use server"
-
           await createLink({
             profileId: profile.id,
-            title: "test",
+            title: "test " + profile.links.length,
             url: "https://test.com",
             type: "generic",
+            order: profile.links.length,
           })
-
-          revalidatePath(`${ProfilePage.Url}/${id}`)
         }}
       >
         <Button type="submit">Create test link</Button>
       </form>
 
-      <pre className="m-4 h-48 w-full overflow-y-auto border p-4 text-xs">
-        {JSON.stringify(profile, null, 2)}
-      </pre>
+      <div className="grid grid-cols-2 gap-4">
+        <pre className="m-4 w-full overflow-y-auto border p-4 text-xs">
+          {JSON.stringify(profile, null, 2)}
+        </pre>
 
-      <LinkList links={profile.links} />
+        <LinkList links={profile.links} onOrderChange={handleUpdateLink} />
+      </div>
     </div>
   )
 }

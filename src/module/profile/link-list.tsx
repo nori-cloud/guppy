@@ -3,19 +3,19 @@
 import { Link } from "@/db/model"
 import { DraggableCardList } from "@/module/profile/components/draggable-list"
 
-export default function LinkList({ links }: { links: Link[] }) {
-  console.debug("links", links)
-
+export default function LinkList({
+  links,
+  onOrderChange,
+}: {
+  links: Link[]
+  onOrderChange: (newItems: Link[]) => void
+}) {
   return (
     <DraggableCardList
-      initialItems={links.map((link) => ({
-        id: link.id.toString(),
-        title: link.title,
-        content: link.url,
-      }))}
+      initialItems={links}
       onOrderChange={(newItems) => {
-        console.log("New order:", newItems)
-        // Here you would typically save the new order to your backend
+        console.debug("New order:", newItems)
+        onOrderChange(newItems)
       }}
     />
   )

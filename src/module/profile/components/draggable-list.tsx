@@ -1,6 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Link } from "@/db/model"
 import { cn } from "@/lib/utils"
 import {
   closestCenter,
@@ -22,17 +23,11 @@ import { CSS } from "@dnd-kit/utilities"
 import { GripVertical } from "lucide-react"
 import { useState } from "react"
 
-interface CardItem {
-  id: string
-  title: string
-  content: string
-}
-
 interface SortableCardProps {
-  item: CardItem
+  link: Link
 }
 
-function SortableCard({ item }: SortableCardProps) {
+function LinkCard({ link }: SortableCardProps) {
   const {
     attributes,
     listeners,
@@ -40,7 +35,7 @@ function SortableCard({ item }: SortableCardProps) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: item.id })
+  } = useSortable({ id: link.id })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -53,9 +48,9 @@ function SortableCard({ item }: SortableCardProps) {
       style={style}
       className={cn("mb-3 touch-none", isDragging && "z-10 opacity-50")}
     >
-      <Card>
+      <Card className="bg-foreground/60">
         <CardHeader className="flex flex-row items-center justify-between p-4">
-          <CardTitle className="text-md">{item.title}</CardTitle>
+          <CardTitle className="text-md">{link.title}</CardTitle>
           <div
             {...attributes}
             {...listeners}
@@ -64,29 +59,24 @@ function SortableCard({ item }: SortableCardProps) {
             <GripVertical className="h-5 w-5 text-gray-400" />
           </div>
         </CardHeader>
-        <CardContent className="p-4 pt-0">{item.content}</CardContent>
+        <CardContent className="p-4 pt-0">{link.url}</CardContent>
       </Card>
     </div>
   )
 }
 
 interface DraggableCardListProps {
-  initialItems?: CardItem[]
-  onOrderChange?: (items: CardItem[]) => void
+  initialItems: Link[]
+  onOrderChange?: (links: Link[]) => void
   className?: string
 }
 
 export function DraggableCardList({
-  initialItems = [
-    { id: "1", title: "Card 1", content: "This is the first card content" },
-    { id: "2", title: "Card 2", content: "This is the second card content" },
-    { id: "3", title: "Card 3", content: "This is the third card content" },
-    { id: "4", title: "Card 4", content: "This is the fourth card content" },
-  ],
+  initialItems,
   onOrderChange,
   className,
 }: DraggableCardListProps) {
-  const [items, setItems] = useState<CardItem[]>(initialItems)
+  const [links, setLinks] = useState<Link[]>(initialItems)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -99,11 +89,16 @@ export function DraggableCardList({
     const { active, over } = event
 
     if (over && active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id)
-        const newIndex = items.findIndex((item) => item.id === over.id)
+      setLinks((links) => {
+        const oldIndex = links.findIndex((l) => l.id === active.id)
+        const newIndex = links.findIndex((l) => l.id === over.id)
 
-        const newItems = arrayMove(items, oldIndex, newIndex)
+        const newItems = arrayMove(links, oldIndex, newIndex).map(
+          (l, order) => ({
+            ...l,
+            order,
+          }),
+        )
 
         if (onOrderChange) {
           onOrderChange(newItems)
@@ -121,9 +116,9 @@ export function DraggableCardList({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext items={items} strategy={verticalListSortingStrategy}>
-          {items.map((item) => (
-            <SortableCard key={item.id} item={item} />
+        <SortableContext items={links} strategy={verticalListSortingStrategy}>
+          {links.map((link) => (
+            <LinkCard key={link.id} link={link} />
           ))}
         </SortableContext>
       </DndContext>

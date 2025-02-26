@@ -28,7 +28,7 @@ export default async function Page({
             type: "generic",
           })
 
-          revalidatePath(ProfilePage.Url)
+          revalidatePath(`${ProfilePage.Url}/${id}`)
         }}
       >
         <Button type="submit">Create test link</Button>
@@ -38,7 +38,7 @@ export default async function Page({
         {JSON.stringify(profile, null, 2)}
       </pre>
 
-      <LinkList />
+      <LinkList links={profile.links} />
     </div>
   )
 }

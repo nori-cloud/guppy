@@ -13,3 +13,4 @@ export type Profile = NonNullable<
 }
 
 export type CreateLinkInput = PgInsertValue<typeof links>
+export type Link = Profile["links"][number]

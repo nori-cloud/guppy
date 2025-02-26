@@ -25,7 +25,14 @@ async function getById(id: string) {
     },
     where: (profiles, { eq }) => eq(profiles.id, id),
     with: {
-      links: true,
+      links: {
+        columns: {
+          id: true,
+          url: true,
+          title: true,
+          type: true,
+        },
+      },
     },
   })
 
@@ -66,7 +73,7 @@ async function remove(id: string) {
       .delete(usersToProfiles)
       .where(
         eq(usersToProfiles.userId, currentUser.id) &&
-          eq(usersToProfiles.profileId, id),
+        eq(usersToProfiles.profileId, id),
       )
     await tx.delete(profiles).where(eq(profiles.id, id))
   })

@@ -1,3 +1,5 @@
+'use server'
+
 import { auth } from "@/system/auth"
 import { db } from "."
 
@@ -5,7 +7,7 @@ export async function getCurrentUser() {
   const session = await auth()
 
   if (!session?.user?.email) {
-    throw new Error("User not found")
+    return null
   }
 
   const { email } = session.user
@@ -28,7 +30,7 @@ export async function getCurrentUser() {
   })
 
   if (!currentUser) {
-    throw new Error("User don't exist in database")
+    return null
   }
 
   return {

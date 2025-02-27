@@ -1,5 +1,5 @@
+import { getCurrentUser } from "@/db/user"
 import { DashboardPage } from "@/module/dashboard/route"
-import { auth } from "@/system/auth"
 import { redirect } from "next/navigation"
 import React from "react"
 
@@ -8,9 +8,9 @@ export default async function AuthLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await auth()
+  const currentUser = await getCurrentUser()
 
-  if (!!session) {
+  if (!!currentUser) {
     redirect(DashboardPage.Url)
   }
 

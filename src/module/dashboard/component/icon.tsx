@@ -2,6 +2,7 @@ import {
   ArrowRight,
   Check,
   CheckCircle,
+  GripVertical,
   Loader2,
   LucideProps,
   Trash,
@@ -17,6 +18,7 @@ const icons = {
   spinner: Loader2,
   ["check-circle"]: CheckCircle,
   ["cross-circle"]: XCircle,
+  ["grip-vertical"]: GripVertical,
 }
 
 export type Icons = keyof typeof icons

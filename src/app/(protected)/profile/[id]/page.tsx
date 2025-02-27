@@ -5,7 +5,7 @@ import {
   getProfileById,
   reorderLinks,
 } from "@/module/profile/action"
-import LinkList from "@/module/profile/link-list"
+import { SortableLinkList } from "@/module/profile/sortable-link-list"
 
 export default async function Page({
   params,
@@ -45,7 +45,10 @@ export default async function Page({
           {JSON.stringify(profile, null, 2)}
         </pre>
 
-        <LinkList links={profile.links} onOrderChange={handleUpdateLink} />
+        <SortableLinkList
+          links={profile.links}
+          onOrderChange={handleUpdateLink}
+        />
       </div>
     </div>
   )

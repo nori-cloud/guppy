@@ -7,10 +7,15 @@ import { getCurrentUser } from "./user"
 async function create(data: PgInsertValue<typeof profiles>) {
   const currentUser = await getCurrentUser()
 
+  if (!currentUser) {
+    // fix this later
+    throw new Error("User not found")
+  }
+
   const profile = await db.insert(profiles).values(data).returning()
 
   await db.insert(usersToProfiles).values({
-    userId: currentUser?.id,
+    userId: currentUser.id,
     profileId: profile[0].id,
     role: "owner",
   })

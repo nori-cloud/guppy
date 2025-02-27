@@ -9,9 +9,9 @@ import {
   useTransition,
 } from "react"
 import { z } from "zod"
+import { Icon } from "../../components/ui/icon"
 import { ProfilePage } from "../profile/route"
 import { createProfile, deleteProfile, validateProfileName } from "./action"
-import { Icon } from "./component/icon"
 
 const profileNameSchema = z
   .string()
@@ -156,7 +156,11 @@ function CreateProfileForm({
   )
 }
 
-export function ProfileGrid({ profiles }: { profiles: Profile[] }) {
+export function ProfileGrid({
+  profiles,
+}: {
+  profiles: Omit<Profile, "links">[]
+}) {
   const [optimisticProfiles, setOptimisticProfiles] = useOptimistic(profiles)
 
   const handleOptimisticCreateProfile = async (name: string) => {

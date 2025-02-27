@@ -5,6 +5,7 @@ import {
   getProfileById,
   reorderLinks,
 } from "@/module/profile/action"
+import { DevicePreview } from "@/module/profile/component/device-preview"
 import { SortableLinkList } from "@/module/profile/sortable-link-list"
 
 export default async function Page({
@@ -41,14 +42,12 @@ export default async function Page({
       </form>
 
       <div className="grid grid-cols-2 gap-4">
-        <pre className="m-4 w-full overflow-y-auto border p-4 text-xs">
-          {JSON.stringify(profile, null, 2)}
-        </pre>
-
         <SortableLinkList
           links={profile.links}
           onOrderChange={handleUpdateLink}
         />
+
+        <DevicePreview name={profile.name} links={profile.links} />
       </div>
     </div>
   )

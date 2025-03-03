@@ -1,0 +1,13 @@
+---
+description: 
+globs: 
+---
+
+# Your rule content
+
+- use type instead of interface when declaring types
+- prefers function component rather than arrow function
+- no default export component, always name export
+  - e.g. export function Comp() {}
+- prefers tailwindcss when creating components
+  - [globals.css](mdc:src/styles/globals.css)

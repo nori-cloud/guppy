@@ -50,6 +50,19 @@ async function getById(id: string) {
 async function getByName(name: string) {
   const profile = await db.query.profiles.findFirst({
     where: (profiles, { eq }) => eq(profiles.name, name),
+    with: {
+      links: {
+        columns: {
+          id: true,
+          profileId: true,
+          order: true,
+          url: true,
+          title: true,
+          type: true,
+        },
+        orderBy: (links, { asc }) => asc(links.order),
+      },
+    },
   })
 
   return profile

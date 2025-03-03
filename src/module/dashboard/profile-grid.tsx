@@ -210,7 +210,7 @@ export function ProfileGrid({
               </button>
             </form>
 
-            <ProfilePage.Link id={profile.id}>
+            <ProfilePage.Link name={profile.name}>
               <button
                 disabled={profile.id === "optimistic"}
                 className="hover:border-background/80 border-background/40 cursor-pointer rounded-md border px-2 py-1 transition-colors"

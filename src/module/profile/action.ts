@@ -15,6 +15,16 @@ export async function getProfileById(id: string) {
   return profile
 }
 
+export async function getProfileByName(name: string) {
+  const profile = await profileDB.getByName(name)
+
+  if (!profile) {
+    throw new Error("Profile not found")
+  }
+
+  return profile
+}
+
 export async function createLink(link: CreateLinkInput) {
   await linkDB.create(link)
 

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import {
   createLink,
-  getProfileById,
+  getProfileByName,
   removeLink,
   reorderLinks,
   updateLink,
@@ -12,11 +12,11 @@ import { SortableLinkList } from "@/module/profile/sortable-link-list"
 export default async function Page({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ name: string }>
 }) {
-  const { id } = await params
+  const { name } = await params
 
-  const profile = await getProfileById(id)
+  const profile = await getProfileByName(name)
 
   return (
     <div>

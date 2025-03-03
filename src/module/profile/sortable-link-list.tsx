@@ -1,5 +1,6 @@
 "use client"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Icon } from "@/components/ui/icon"
 import { Link } from "@/db/model"
 import { cn } from "@/lib/utils"
 import {
@@ -19,14 +20,18 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import { GripVertical } from "lucide-react"
+import EditableInput from "./component/input"
 
 export function SortableLinkList({
   links,
   onOrderChange,
+  onLinkUpdate,
+  onLinkRemove,
 }: {
   links: Link[]
   onOrderChange: (newItems: Link[]) => void
+  onLinkUpdate: (link: Link) => void
+  onLinkRemove: (id: number) => void
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -52,7 +57,7 @@ export function SortableLinkList({
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -60,7 +65,12 @@ export function SortableLinkList({
       >
         <SortableContext items={links} strategy={verticalListSortingStrategy}>
           {links.map((link) => (
-            <SortableLinkCard key={link.id} link={link} />
+            <SortableLinkCard
+              key={link.id}
+              link={link}
+              onLinkUpdate={onLinkUpdate}
+              onLinkRemove={onLinkRemove}
+            />
           ))}
         </SortableContext>
       </DndContext>
@@ -70,9 +80,15 @@ export function SortableLinkList({
 
 interface SortableCardProps {
   link: Link
+  onLinkUpdate: (link: Link) => void
+  onLinkRemove: (id: number) => void
 }
 
-function SortableLinkCard({ link }: SortableCardProps) {
+function SortableLinkCard({
+  link,
+  onLinkUpdate,
+  onLinkRemove,
+}: SortableCardProps) {
   const {
     attributes,
     listeners,
@@ -88,25 +104,45 @@ function SortableLinkCard({ link }: SortableCardProps) {
   }
 
   return (
-    <div
-      ref={setNodeRef}
+    <Card
       style={style}
-      className={cn("mb-3 touch-none", isDragging && "z-10 opacity-50")}
+      ref={setNodeRef}
+      className={cn(
+        "bg-foreground touch-none",
+        isDragging && "z-10 opacity-80",
+      )}
     >
-      <Card className="bg-foreground">
-        <CardHeader className="flex flex-row items-center justify-between p-4">
-          <CardTitle className="text-md">{link.title}</CardTitle>
-          <div
-            suppressHydrationWarning
-            {...attributes}
-            {...listeners}
-            className="cursor-grab rounded p-1 hover:bg-gray-100"
-          >
-            <GripVertical className="h-5 w-5 text-gray-400" />
-          </div>
-        </CardHeader>
-        <CardContent className="p-4 pt-0">{link.url}</CardContent>
-      </Card>
-    </div>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <EditableInput
+          onSave={(title) => onLinkUpdate({ ...link, title })}
+          defaultValue={link.title}
+        />
+
+        <div
+          suppressHydrationWarning
+          {...attributes}
+          {...listeners}
+          className="cursor-grab rounded p-1 hover:bg-gray-100"
+        >
+          <Icon icon="grip-vertical" className="size-4" />
+        </div>
+      </CardHeader>
+
+      <CardContent className="">
+        <EditableInput
+          onSave={(url) => onLinkUpdate({ ...link, url })}
+          defaultValue={link.url}
+        />
+      </CardContent>
+
+      <CardFooter className="flex justify-end gap-2">
+        <button
+          className="hover:border-background/80 border-background/20 text-background/80 hover:text-background rounded-md border p-1 transition-colors"
+          onClick={() => onLinkRemove(link.id)}
+        >
+          <Icon icon="trash" className="size-4" />
+        </button>
+      </CardFooter>
+    </Card>
   )
 }

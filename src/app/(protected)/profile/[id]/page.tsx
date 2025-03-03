@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button"
-import { Link } from "@/db/model"
 import {
   createLink,
   getProfileById,
+  removeLink,
   reorderLinks,
+  updateLink,
 } from "@/module/profile/action"
 import { DevicePreview } from "@/module/profile/component/device-preview"
 import { SortableLinkList } from "@/module/profile/sortable-link-list"
@@ -16,11 +17,6 @@ export default async function Page({
   const { id } = await params
 
   const profile = await getProfileById(id)
-
-  const handleUpdateLink = async (links: Link[]) => {
-    "use server"
-    await reorderLinks(links)
-  }
 
   return (
     <div>
@@ -44,7 +40,9 @@ export default async function Page({
       <div className="grid grid-cols-2 gap-4">
         <SortableLinkList
           links={profile.links}
-          onOrderChange={handleUpdateLink}
+          onOrderChange={reorderLinks}
+          onLinkUpdate={updateLink}
+          onLinkRemove={removeLink}
         />
 
         <DevicePreview name={profile.name} links={profile.links} />

@@ -28,7 +28,13 @@ export async function updateLink(link: Link) {
 }
 
 export async function reorderLinks(links: Link[]) {
-  await linkDB.updateMany(links)
+  await linkDB.reorder(links)
 
   revalidatePath(`${ProfilePage.Url}/${links[0].profileId}`)
+}
+
+export async function removeLink(id: number) {
+  await linkDB.remove(id)
+
+  revalidatePath(`${ProfilePage.Url}/${id}`)
 }

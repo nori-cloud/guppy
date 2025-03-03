@@ -5,6 +5,7 @@ import {
   GripVertical,
   Loader2,
   LucideProps,
+  Pencil,
   Trash,
   X,
   XCircle,
@@ -19,6 +20,7 @@ const icons = {
   ["check-circle"]: CheckCircle,
   ["cross-circle"]: XCircle,
   ["grip-vertical"]: GripVertical,
+  edit: Pencil,
 }
 
 export type Icons = keyof typeof icons

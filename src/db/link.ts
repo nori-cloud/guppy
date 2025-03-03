@@ -7,11 +7,13 @@ async function create(link: CreateLinkInput) {
   await db.insert(links).values(link)
 }
 
-async function update(link: Link) {
+async function update({ id, ...link }: Link) {
+  console.log(`update link ${id}`)
+
   await db
     .update(links)
     .set({ ...link, updatedAt: sql`NOW()` })
-    .where(eq(links.id, link.id))
+    .where(eq(links.id, id))
 }
 
 async function reorder(newLinks: Link[]) {
@@ -27,8 +29,15 @@ async function reorder(newLinks: Link[]) {
   await db.update(links).set({ order: finalSql }).where(inArray(links.id, ids))
 }
 
+async function remove(id: number) {
+  console.log(`remove link ${id}`)
+
+  await db.delete(links).where(eq(links.id, id))
+}
+
 export const linkDB = {
   create,
   update,
-  updateMany: reorder,
+  reorder,
+  remove,
 }

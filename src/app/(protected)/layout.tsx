@@ -16,7 +16,7 @@ export default async function ProtectedLayout({
   }
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container max-h-screen max-w-screen">
       {children}
       <UserMenu user={currentUser} />
     </div>

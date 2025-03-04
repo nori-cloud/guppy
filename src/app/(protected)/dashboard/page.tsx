@@ -4,6 +4,7 @@ import { profileDB } from "@/db/profile"
 import { getCurrentUser } from "@/db/user"
 import { ProfileGrid } from "@/module/dashboard/profile-grid"
 import { DashboardPage } from "@/module/dashboard/route"
+import UserMenu from "@/module/dashboard/user-menu"
 import { revalidatePath } from "next/cache"
 
 export default async function Page() {
@@ -26,6 +27,8 @@ export default async function Page() {
       ) : (
         <InitialProfileForm />
       )}
+
+      <UserMenu user={currentUser} />
     </div>
   )
 }

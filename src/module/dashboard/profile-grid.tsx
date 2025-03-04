@@ -215,7 +215,7 @@ export function ProfileGrid({
                 disabled={profile.id === "optimistic"}
                 className="hover:border-background/80 border-background/40 cursor-pointer rounded-md border px-2 py-1 transition-colors"
               >
-                <Icon icon="right-arrow" className="size-4" />
+                <Icon icon="arrow-right" className="size-4" />
               </button>
             </ProfilePage.Link>
           </div>

@@ -1,4 +1,4 @@
-import { PgInsertValue } from "drizzle-orm/pg-core"
+import { InferInsertModel } from "drizzle-orm"
 import { profileDB } from "./profile"
 import { links, ProfileRole } from "./schema"
 import { getCurrentUser } from "./user"
@@ -9,8 +9,8 @@ export type CurrentUser = NonNullable<
 export type Profile = NonNullable<
   Awaited<ReturnType<typeof profileDB.getById>>
 > & {
-  role: ProfileRole
+  role?: ProfileRole
 }
 
-export type CreateLinkInput = PgInsertValue<typeof links>
+export type CreateLinkInput = InferInsertModel<typeof links>
 export type Link = Profile["links"][number]

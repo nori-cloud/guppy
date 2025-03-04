@@ -26,7 +26,10 @@ export async function getProfileByName(name: string) {
 }
 
 export async function createLink(link: CreateLinkInput) {
-  await linkDB.create(link)
+  const metadata = await getLinkMetadata(link.url)
+  const title = (!!metadata.title && link.title === "") ? metadata.title : link.title
+
+  await linkDB.create({ ...link, title })
 
   revalidatePath(`${ProfilePage.Url}/${link.profileId}`)
 }

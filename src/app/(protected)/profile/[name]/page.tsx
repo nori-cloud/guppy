@@ -1,4 +1,8 @@
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Icon } from "@/components/ui/icon"
+import { Link, Profile } from "@/db/model"
+import { cn } from "@/lib/utils"
 import { DashboardPage } from "@/module/dashboard/route"
 import {
   createLink,
@@ -21,49 +25,79 @@ export default async function Page({
 
   return (
     <div className="flex h-screen">
-      <div className="flex w-80 flex-col gap-6 p-6 pr-0">
-        <div className="bg-foreground flex flex-col gap-2 rounded-md p-4">
-          <DashboardPage.Link>
-            <Button variant="outline">Back to Dashboard</Button>
-          </DashboardPage.Link>
+      <Sidebar profile={profile} />
 
-          <h1 className="text-background text-2xl font-bold">
-            Profile {profile.name}
-          </h1>
-        </div>
+      <div className="divide-foreground flex flex-1 gap-4 divide-x">
+        <LinkEditor
+          className="flex-3 p-6"
+          links={profile.links}
+          onCreateLink={async () => {
+            "use server"
+            await createLink({
+              profileId: profile.id,
+              title: "",
+              url: "",
+              type: "generic",
+              order: profile.links.length,
+            })
+          }}
+        />
 
-        <div className="bg-foreground flex flex-1 flex-col gap-2 rounded-md p-4">
-          <form
-            action={async () => {
-              "use server"
-              await createLink({
-                profileId: profile.id,
-                title: "test " + profile.links.length,
-                url: "https://test.com",
-                type: "generic",
-                order: profile.links.length,
-              })
-            }}
-          >
-            <Button type="submit">Create test link</Button>
-          </form>
-        </div>
-      </div>
-
-      <div className="divide-foreground grid flex-1 grid-cols-2 gap-4 divide-x">
-        <div className="flex flex-col overflow-x-clip overflow-y-auto p-6">
-          <SortableLinkList
-            links={profile.links}
-            onOrderChange={reorderLinks}
-            onLinkUpdate={updateLink}
-            onLinkRemove={removeLink}
-          />
-        </div>
-
-        <div className="flex items-center justify-center">
+        <div className="flex flex-2 items-center justify-center">
           <DevicePreview name={profile.name} links={profile.links} />
         </div>
       </div>
+    </div>
+  )
+}
+
+export function Sidebar({ profile }: { profile: Profile }) {
+  return (
+    <div className="flex w-80 flex-col gap-6 p-6 pr-0">
+      <Card className="flex-row items-center gap-2 p-4">
+        <DashboardPage.Link>
+          <Button>
+            <Icon icon="arrow-left" />
+          </Button>
+        </DashboardPage.Link>
+
+        <h1 className="text-background text-2xl font-semibold">
+          {profile.name}
+        </h1>
+      </Card>
+
+      <Card className="flex-1"></Card>
+    </div>
+  )
+}
+
+function LinkEditor({
+  links,
+  ...props
+}: {
+  className?: string
+  links: Link[]
+  onCreateLink: () => Promise<void>
+}) {
+  return (
+    <div
+      className={cn(
+        "flex flex-col gap-6 overflow-x-clip overflow-y-auto",
+        props.className,
+      )}
+    >
+      <Card className="p-4">
+        <form action={props.onCreateLink}>
+          <Button type="submit">New Link</Button>
+        </form>
+      </Card>
+
+      <SortableLinkList
+        links={links}
+        onOrderChange={reorderLinks}
+        onLinkUpdate={updateLink}
+        onLinkRemove={removeLink}
+      />
     </div>
   )
 }

@@ -1,8 +1,10 @@
 import {
+  ArrowLeft,
   ArrowRight,
   Check,
   CheckCircle,
   GripVertical,
+  Home,
   Loader2,
   LucideProps,
   Pencil,
@@ -12,7 +14,8 @@ import {
 } from "lucide-react"
 
 const icons = {
-  ["right-arrow"]: ArrowRight,
+  ["arrow-left"]: ArrowLeft,
+  ["arrow-right"]: ArrowRight,
   trash: Trash,
   check: Check,
   cross: X,
@@ -21,6 +24,7 @@ const icons = {
   ["cross-circle"]: XCircle,
   ["grip-vertical"]: GripVertical,
   edit: Pencil,
+  home: Home,
 }
 
 export type Icons = keyof typeof icons

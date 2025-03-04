@@ -1,6 +1,5 @@
 import { getCurrentUser } from "@/db/user"
 import { AuthRoute } from "@/module/auth/route"
-import UserMenu from "@/module/dashboard/user-menu"
 import { redirect } from "next/navigation"
 import React from "react"
 
@@ -15,10 +14,5 @@ export default async function ProtectedLayout({
     redirect(AuthRoute.SignIn.Url)
   }
 
-  return (
-    <div className="container max-h-screen max-w-screen">
-      {children}
-      <UserMenu user={currentUser} />
-    </div>
-  )
+  return <div className="container max-h-screen max-w-screen">{children}</div>
 }

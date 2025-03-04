@@ -107,10 +107,7 @@ function SortableLinkCard({
     <Card
       style={style}
       ref={setNodeRef}
-      className={cn(
-        "bg-foreground touch-none",
-        isDragging && "z-10 opacity-80",
-      )}
+      className={cn("touch-none", isDragging && "z-10 opacity-80")}
     >
       <CardHeader className="flex flex-row items-center justify-between">
         <EditableInput

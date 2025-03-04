@@ -1,6 +1,6 @@
 "use server"
 import { linkDB } from "@/db/link"
-import { CreateLinkInput, Link } from "@/db/model"
+import { CreateLinkInput, Link, UpdateLinkInput } from "@/db/model"
 import { profileDB } from "@/db/profile"
 import { revalidatePath } from "next/cache"
 import { ProfilePage } from "./route"
@@ -29,17 +29,17 @@ export async function createLink(link: CreateLinkInput) {
   const metadata = await getLinkMetadata(link.url)
   const title = (!!metadata.title && link.title === "") ? metadata.title : link.title
 
-  await linkDB.create({ ...link, title })
+  await linkDB.create({ ...link, title, enabled: !!title && !!link.url })
 
   revalidatePath(`${ProfilePage.Url}/${link.profileId}`)
 }
 
-export async function updateLink(link: Link) {
+export async function updateLink(link: UpdateLinkInput & { profileId: string }) {
   const metadata = await getLinkMetadata(link.url)
 
   const title = (!!metadata.title && link.title === "") ? metadata.title : link.title
 
-  await linkDB.update({ ...link, title })
+  await linkDB.update({ ...link, title, enabled: !!title && !!link.url && link.enabled })
 
   revalidatePath(`${ProfilePage.Url}/${link.profileId}`)
 }

@@ -75,8 +75,8 @@ export default function EditableInput({
           className="w-full rounded-md focus:outline-none"
         />
       ) : (
-        <div className="text-background group flex cursor-pointer items-center">
-          {value || <span className="text-gray-400">{placeholder}</span>}
+        <div className="group flex cursor-pointer items-center">
+          {value || <span className="text-foreground/30">{placeholder}</span>}
           <Icon
             icon="edit"
             className="ml-2 inline-block size-3 opacity-0 group-hover:opacity-100"

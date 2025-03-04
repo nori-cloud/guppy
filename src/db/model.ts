@@ -1,4 +1,4 @@
-import { InferInsertModel } from "drizzle-orm"
+import { InferInsertModel, InferSelectModel } from "drizzle-orm"
 import { profileDB } from "./profile"
 import { links, ProfileRole } from "./schema"
 import { getCurrentUser } from "./user"
@@ -12,5 +12,6 @@ export type Profile = NonNullable<
   role?: ProfileRole
 }
 
+export type UpdateLinkInput = Omit<InferSelectModel<typeof links>, 'createdAt' | 'updatedAt' | 'profileId'>
 export type CreateLinkInput = InferInsertModel<typeof links>
 export type Link = Profile["links"][number]

@@ -27,7 +27,7 @@ export default async function Page({
     <div className="flex h-screen">
       <Sidebar profile={profile} />
 
-      <div className="divide-foreground flex flex-1 gap-4 divide-x">
+      <div className="flex flex-1 gap-4 divide-x">
         <LinkEditor
           className="flex-3 p-6"
           links={profile.links}
@@ -61,9 +61,7 @@ export function Sidebar({ profile }: { profile: Profile }) {
           </Button>
         </DashboardPage.Link>
 
-        <h1 className="text-background text-2xl font-semibold">
-          {profile.name}
-        </h1>
+        <h1 className="text-2xl font-semibold">{profile.name}</h1>
       </Card>
 
       <Card className="flex-1"></Card>

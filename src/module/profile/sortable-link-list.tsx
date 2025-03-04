@@ -1,6 +1,7 @@
 "use client"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Icon } from "@/components/ui/icon"
+import { Switch } from "@/components/ui/switch"
 import { Link } from "@/db/model"
 import { cn } from "@/lib/utils"
 import {
@@ -78,12 +79,11 @@ export function SortableLinkList({
   )
 }
 
-interface SortableCardProps {
+type SortableCardProps = {
   link: Link
   onLinkUpdate: (link: Link) => void
   onLinkRemove: (id: number) => void
 }
-
 function SortableLinkCard({
   link,
   onLinkUpdate,
@@ -132,9 +132,18 @@ function SortableLinkCard({
         />
       </CardContent>
 
-      <CardFooter className="flex justify-end gap-2">
+      <CardFooter className="flex justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <Switch
+            disabled={!link.title || !link.url}
+            name="enable"
+            checked={link.enabled}
+            onCheckedChange={(enabled) => onLinkUpdate({ ...link, enabled })}
+          />
+        </div>
+
         <button
-          className="hover:border-background/80 border-background/20 text-background/80 hover:text-background rounded-md border p-1 transition-colors"
+          className="hover:border-background/80 border-background/20 text-foreground/80 hover:text-foreground rounded-md border p-1 transition-colors"
           onClick={() => onLinkRemove(link.id)}
         >
           <Icon icon="trash" className="size-4" />

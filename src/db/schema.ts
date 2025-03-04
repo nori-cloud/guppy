@@ -148,6 +148,7 @@ export const links = pgTable("link", {
   profileId: text("profileId")
     .notNull()
     .references(() => profiles.id, { onDelete: "cascade" }),
+  enabled: boolean("enabled").notNull().default(false),
   type: text("type").$type<LinkType>().notNull(),
   title: text("title").notNull(),
   url: text("url").notNull(),

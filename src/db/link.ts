@@ -1,18 +1,23 @@
 import { eq, inArray, SQL, sql } from "drizzle-orm"
 import { db } from "."
-import { CreateLinkInput, Link } from "./model"
+import { CreateLinkInput, Link, UpdateLinkInput } from "./model"
 import { links } from "./schema"
 
 async function create(link: CreateLinkInput) {
   await db.insert(links).values(link)
 }
 
-async function update({ id, ...link }: Link) {
-  console.log(`update link ${id}`)
+async function update({ id, ...link }: UpdateLinkInput) {
+  const { title, url, enabled } = link
 
   await db
     .update(links)
-    .set({ ...link, updatedAt: sql`NOW()` })
+    .set({
+      title,
+      url,
+      enabled,
+      updatedAt: sql`NOW()`
+    })
     .where(eq(links.id, id))
 }
 

@@ -1,11 +1,13 @@
 import { Icon } from "@/components/ui/icon"
 import { useEffect, useRef, useState } from "react"
+import { z } from "zod"
 
 interface EditableInputProps {
   defaultValue: string
   onSave?: (value: string) => void
   className?: string
   placeholder?: string
+  schema?: z.ZodSchema
 }
 
 export default function EditableInput({
@@ -13,7 +15,9 @@ export default function EditableInput({
   onSave,
   className = "",
   placeholder = "Click to edit",
+  schema,
 }: EditableInputProps) {
+  const [error, setError] = useState<string | null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [value, setValue] = useState(defaultValue)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -40,12 +44,19 @@ export default function EditableInput({
     setIsEditing(false)
     // Call the onSave callback if provided
     if (onSave && value !== defaultValue) {
-      onSave(value)
+      if (!error) onSave(value)
     }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
+    setError(null)
+    if (schema) {
+      const result = schema.safeParse(value)
+      if (!result.success) {
+        setError(result.error.errors[0].message)
+      }
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -65,15 +76,18 @@ export default function EditableInput({
       onClick={handleClick}
     >
       {isEditing ? (
-        <input
-          ref={inputRef}
-          type="text"
-          value={value}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          onKeyDown={handleKeyDown}
-          className="w-full rounded-md focus:outline-none"
-        />
+        <>
+          <input
+            ref={inputRef}
+            type="text"
+            value={value}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+            className="w-full focus:outline-none"
+          />
+          {error && <p className="text-red-500">{error}</p>}
+        </>
       ) : (
         <div className="group flex cursor-pointer items-center">
           {value || <span className="text-foreground/30">{placeholder}</span>}

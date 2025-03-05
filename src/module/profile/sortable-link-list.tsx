@@ -21,6 +21,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
+import { z } from "zod"
 import EditableInput from "./component/input"
 
 export function SortableLinkList({
@@ -129,6 +130,7 @@ function SortableLinkCard({
         <EditableInput
           onSave={(url) => onLinkUpdate({ ...link, url })}
           defaultValue={link.url}
+          schema={z.string().url({ message: "Link must be a valid URL" })}
         />
       </CardContent>
 

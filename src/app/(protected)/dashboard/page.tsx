@@ -17,16 +17,18 @@ export default async function Page() {
   const hasProfile = currentUser?.profiles.length > 0
 
   return (
-    <div className="mx-auto h-screen max-w-5xl">
-      <h1>Dashboard</h1>
+    <div className="mx-auto h-screen max-w-5xl px-8 pt-12">
+      <p className="text-2xl">Welcome! {currentUser.name}</p>
 
-      <p>Welcome {currentUser.name}</p>
+      <div className="mt-12 flex flex-col gap-4">
+        <p className="text-4xl">Your Profiles</p>
 
-      {hasProfile ? (
-        <ProfileGrid profiles={currentUser.profiles} />
-      ) : (
-        <InitialProfileForm />
-      )}
+        {hasProfile ? (
+          <ProfileGrid profiles={currentUser.profiles} />
+        ) : (
+          <InitialProfileForm />
+        )}
+      </div>
 
       <UserMenu user={currentUser} />
     </div>

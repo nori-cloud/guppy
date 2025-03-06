@@ -3,8 +3,9 @@ import Image from "next/image"
 
 function Header() {
   return (
-    <header className="bg-foreground fixed inset-x-0 top-4 z-50 mx-auto flex max-w-5xl items-center justify-between rounded-md px-3 py-2 backdrop-blur-sm">
-      <h2 className="text-2xl text-neutral-900">Guppy</h2>
+    <header className="fixed inset-x-0 top-4 z-50 mx-auto flex max-w-5xl items-center justify-between rounded-md border px-3 py-2 backdrop-blur-sm">
+      <h2 className="text-2xl">Guppy</h2>
+
       <AuthMenu />
     </header>
   )

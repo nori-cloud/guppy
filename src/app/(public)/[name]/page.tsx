@@ -23,7 +23,7 @@ export default async function PublicProfilePage({
     .toUpperCase()
 
   return (
-    <main className="h-screen w-screen px-4 pt-[10vh]">
+    <main className="absolute inset-0 flex flex-col items-center px-4 pt-[10%]">
       <div className="mb-8 flex flex-col items-center gap-2">
         <Avatar className="size-16 text-xl">
           <AvatarFallback>{initials}</AvatarFallback>
@@ -31,7 +31,7 @@ export default async function PublicProfilePage({
         <h2 className="text-lg font-medium">{name}</h2>
       </div>
 
-      <div className="mb-8 flex flex-1 flex-col gap-3 overflow-y-auto">
+      <div className="flex max-w-2xl flex-1 flex-col gap-3 overflow-y-auto">
         {profile.links
           .filter((link) => link.enabled)
           .map((link, index) => (
@@ -47,7 +47,7 @@ export default async function PublicProfilePage({
           ))}
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 flex items-center justify-center gap-1 py-6">
+      <div className="mt-auto flex items-center justify-center gap-1 py-6">
         {"Power by "}
         <HomePage.Link>
           <span className="text-2xl font-bold hover:underline">Guppy</span>

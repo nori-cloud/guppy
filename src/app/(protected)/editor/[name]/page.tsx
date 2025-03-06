@@ -46,7 +46,7 @@ export default async function Page({
         />
 
         <div className="flex flex-2 items-center justify-center">
-          <DevicePreview name={profile.name} links={profile.links} />
+          <DevicePreview profileName={profile.name} />
         </div>
       </div>
     </div>

@@ -26,10 +26,10 @@ export default async function Page({
   const profile = await getProfileByName(name)
 
   return (
-    <div className="flex h-screen">
-      <Sidebar profile={profile} />
+    <div className="flex h-screen flex-col">
+      <Toolbar profile={profile} />
 
-      <div className="flex flex-1 gap-4 divide-x">
+      <div className="flex flex-1 flex-col-reverse gap-4 md:flex-row md:divide-x">
         <LinkEditor
           className="flex-3 p-6"
           links={profile.links}
@@ -45,7 +45,7 @@ export default async function Page({
           }}
         />
 
-        <div className="flex flex-2 items-center justify-center">
+        <div className="flex flex-2 items-center justify-center p-6">
           <DevicePreview profileName={profile.name} />
         </div>
       </div>
@@ -53,10 +53,10 @@ export default async function Page({
   )
 }
 
-function Sidebar({ profile }: { profile: Profile }) {
+function Toolbar({ profile }: { profile: Profile }) {
   return (
-    <div className="flex w-80 flex-col gap-6 p-6 pr-0">
-      <Card className="flex-row items-center gap-2 p-4">
+    <div className="flex gap-6 border-b p-4">
+      <div className="flex flex-row items-center gap-2">
         <DashboardPage.Link>
           <Button>
             <Icon icon="arrow-left" />
@@ -64,9 +64,7 @@ function Sidebar({ profile }: { profile: Profile }) {
         </DashboardPage.Link>
 
         <h1 className="text-2xl font-semibold">{profile.name}</h1>
-      </Card>
-
-      <Card className="flex-1"></Card>
+      </div>
     </div>
   )
 }

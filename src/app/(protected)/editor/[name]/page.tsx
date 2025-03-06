@@ -9,12 +9,12 @@ import {
   removeLink,
   reorderLinks,
   updateLink,
-} from "@/module/profile/action"
-import { DevicePreview } from "@/module/profile/component/device-preview"
-import { SortableLinkList } from "@/module/profile/sortable-link-list"
-import { DashboardPage, ProfilePage } from "@/system/route"
+} from "@/module/editor/action"
+import { DevicePreview } from "@/module/editor/component/device-preview"
+import { SortableLinkList } from "@/module/editor/sortable-link-list"
+import { DashboardPage, EditorPage } from "@/system/route"
 
-export const metadata = ProfilePage.Metadata
+export const metadata = EditorPage.Metadata
 
 export default async function Page({
   params,

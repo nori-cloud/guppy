@@ -45,12 +45,12 @@ export const DashboardPage: RouteObject = {
   Link: ({ children }) => <Link href="/dashboard">{children}</Link>,
 }
 
-export const ProfilePage: RouteObject<{ name: string }> = {
+export const EditorPage: RouteObject<{ name: string }> = {
   Metadata: {
-    title: "Guppy | Profile",
+    title: "Guppy | Editor",
   },
-  Url: "/profile",
+  Url: "/editor",
   Link: ({ children, name }) => (
-    <Link href={`${ProfilePage.Url}/${name}`}>{children}</Link>
+    <Link href={`${EditorPage.Url}/${name}`}>{children}</Link>
   ),
 }

@@ -2,7 +2,7 @@
 import { linkDB } from "@/db/link"
 import { CreateLinkInput, Link, UpdateLinkInput } from "@/db/model"
 import { profileDB } from "@/db/profile"
-import { ProfilePage } from "@/system/route"
+import { EditorPage } from "@/system/route"
 import { revalidatePath } from "next/cache"
 
 export async function getProfileById(id: string) {
@@ -31,7 +31,7 @@ export async function createLink(link: CreateLinkInput) {
 
   await linkDB.create({ ...link, title, enabled: !!title && !!link.url })
 
-  revalidatePath(`${ProfilePage.Url}/${link.profileId}`)
+  revalidatePath(`${EditorPage.Url}/${link.profileId}`)
 }
 
 export async function updateLink(link: UpdateLinkInput & { profileId: string }) {
@@ -41,19 +41,19 @@ export async function updateLink(link: UpdateLinkInput & { profileId: string }) 
 
   await linkDB.update({ ...link, title, enabled: !!title && !!link.url && link.enabled })
 
-  revalidatePath(`${ProfilePage.Url}/${link.profileId}`)
+  revalidatePath(`${EditorPage.Url}/${link.profileId}`)
 }
 
 export async function reorderLinks(links: Link[]) {
   await linkDB.reorder(links)
 
-  revalidatePath(`${ProfilePage.Url}/${links[0].profileId}`)
+  revalidatePath(`${EditorPage.Url}/${links[0].profileId}`)
 }
 
 export async function removeLink(id: number) {
   await linkDB.remove(id)
 
-  revalidatePath(`${ProfilePage.Url}/${id}`)
+  revalidatePath(`${EditorPage.Url}/${id}`)
 }
 
 type LinkMetadata = {

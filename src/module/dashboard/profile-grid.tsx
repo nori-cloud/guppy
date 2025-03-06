@@ -2,7 +2,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { Profile } from "@/db/model"
-import { ProfilePage } from "@/system/route"
+import { EditorPage } from "@/system/route"
 import {
   useEffect,
   useOptimistic,
@@ -203,14 +203,14 @@ export function ProfileGrid({
               </button>
             </form>
 
-            <ProfilePage.Link name={profile.name}>
+            <EditorPage.Link name={profile.name}>
               <button
                 disabled={profile.id === "optimistic"}
                 className="hover:border-background/80 border-background/40 cursor-pointer rounded-md border px-2 py-1 transition-colors"
               >
                 <Icon icon="arrow-right" className="size-4" />
               </button>
-            </ProfilePage.Link>
+            </EditorPage.Link>
           </div>
         </Card>
       ))}

@@ -1,12 +1,16 @@
 import { Metadata } from "next"
 import Link from "next/link"
+import { AnchorHTMLAttributes } from "react"
 
 type RouteObject<TParams extends object = object> = {
   Metadata: Metadata
   Url: string
-  Link: ({
-    children,
-  }: { children: React.ReactNode } & TParams) => React.ReactNode
+  Link: (
+    params: {
+      children: React.ReactNode
+    } & AnchorHTMLAttributes<HTMLAnchorElement> &
+      TParams,
+  ) => React.ReactNode
 }
 
 export const HomePage: RouteObject = {

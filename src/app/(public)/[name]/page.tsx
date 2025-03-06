@@ -1,20 +1,29 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Link } from "@/db/model"
+import { profileDB } from "@/db/profile"
+import { HomePage } from "@/system/route"
+import { redirect } from "next/navigation"
 
-interface DevicePreviewProps {
-  name: string
-  links: Array<Link>
-}
+export default async function PublicProfilePage({
+  params,
+}: {
+  params: Promise<{ name: string }>
+}) {
+  const { name } = await params
 
-export function DevicePreview({ name, links }: DevicePreviewProps) {
-  const initials = name
+  const profile = await profileDB.getByName(name)
+
+  if (!profile) {
+    redirect(HomePage.Url)
+  }
+
+  const initials = profile.name
     .split("-")
     .map((n) => n[0])
     .join("")
     .toUpperCase()
 
   return (
-    <div className="shadow-foreground/80 border-foreground/80 bg-background flex aspect-[9/19] w-[300px] flex-col rounded-3xl border-4 px-6 py-8 text-white shadow-md">
+    <main className="h-screen w-screen px-4 pt-[10vh]">
       <div className="mb-8 flex flex-col items-center gap-2">
         <Avatar className="size-16 text-xl">
           <AvatarFallback>{initials}</AvatarFallback>
@@ -23,7 +32,7 @@ export function DevicePreview({ name, links }: DevicePreviewProps) {
       </div>
 
       <div className="mb-8 flex flex-1 flex-col gap-3 overflow-y-auto">
-        {links
+        {profile.links
           .filter((link) => link.enabled)
           .map((link, index) => (
             <a
@@ -38,9 +47,12 @@ export function DevicePreview({ name, links }: DevicePreviewProps) {
           ))}
       </div>
 
-      <div className="text-foreground mt-auto text-center text-sm font-bold">
-        Guppy
+      <div className="fixed inset-x-0 bottom-0 flex items-center justify-center gap-1 py-6">
+        {"Power by "}
+        <HomePage.Link>
+          <span className="text-2xl font-bold hover:underline">Guppy</span>
+        </HomePage.Link>
       </div>
-    </div>
+    </main>
   )
 }

@@ -1,5 +1,8 @@
 import { AuthMenu } from "@/module/auth/menu"
+import { HomePage } from "@/system/route"
 import Image from "next/image"
+
+export const metadata = HomePage.Metadata
 
 function Header() {
   return (

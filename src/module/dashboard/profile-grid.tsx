@@ -2,6 +2,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { Profile } from "@/db/model"
+import { ProfilePage } from "@/system/route"
 import {
   useEffect,
   useOptimistic,
@@ -11,7 +12,6 @@ import {
 } from "react"
 import { z } from "zod"
 import { Icon } from "../../components/ui/icon"
-import { ProfilePage } from "../profile/route"
 import { createProfile, deleteProfile, validateProfileName } from "./action"
 
 const profileNameSchema = z

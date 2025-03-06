@@ -2,8 +2,8 @@
 import { linkDB } from "@/db/link"
 import { CreateLinkInput, Link, UpdateLinkInput } from "@/db/model"
 import { profileDB } from "@/db/profile"
+import { ProfilePage } from "@/system/route"
 import { revalidatePath } from "next/cache"
-import { ProfilePage } from "./route"
 
 export async function getProfileById(id: string) {
   const profile = await profileDB.getById(id)

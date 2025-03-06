@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card"
 import { Icon } from "@/components/ui/icon"
 import { Link, Profile } from "@/db/model"
 import { cn } from "@/lib/utils"
-import { DashboardPage } from "@/module/dashboard/route"
 import {
   createLink,
   getProfileByName,
@@ -13,6 +12,9 @@ import {
 } from "@/module/profile/action"
 import { DevicePreview } from "@/module/profile/component/device-preview"
 import { SortableLinkList } from "@/module/profile/sortable-link-list"
+import { DashboardPage, ProfilePage } from "@/system/route"
+
+export const metadata = ProfilePage.Metadata
 
 export default async function Page({
   params,
@@ -51,7 +53,7 @@ export default async function Page({
   )
 }
 
-export function Sidebar({ profile }: { profile: Profile }) {
+function Sidebar({ profile }: { profile: Profile }) {
   return (
     <div className="flex w-80 flex-col gap-6 p-6 pr-0">
       <Card className="flex-row items-center gap-2 p-4">

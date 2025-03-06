@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/db/user"
-import { DashboardPage } from "@/module/dashboard/route"
+import { DashboardPage } from "@/system/route"
 import { redirect } from "next/navigation"
 import React from "react"
 

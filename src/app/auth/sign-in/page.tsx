@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { signIn } from "@/system/auth"
+import { SignInPage } from "@/system/route"
+
+export const metadata = SignInPage.Metadata
 
 export default async function Page() {
   return (

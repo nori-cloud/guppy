@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/db/user"
-import { AuthRoute } from "@/module/auth/route"
+import { SignInPage } from "@/system/route"
 import { redirect } from "next/navigation"
 import React from "react"
 
@@ -11,7 +11,7 @@ export default async function ProtectedLayout({
   const currentUser = await getCurrentUser()
 
   if (!currentUser) {
-    redirect(AuthRoute.SignIn.Url)
+    redirect(SignInPage.Url)
   }
 
   return <div className="container max-h-screen max-w-screen">{children}</div>

@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { auth } from "@/system/auth"
-import { DashboardPage } from "../dashboard/route"
-import { AuthRoute } from "./route"
+import { DashboardPage, SignInPage, SignUpPage } from "@/system/route"
 
 export async function AuthMenu() {
   const session = await auth()
@@ -16,12 +15,12 @@ export async function AuthMenu() {
 
       {!session && (
         <>
-          <AuthRoute.SignIn.Link>
+          <SignInPage.Link>
             <Button>Sign in</Button>
-          </AuthRoute.SignIn.Link>
-          <AuthRoute.SignUp.Link>
+          </SignInPage.Link>
+          <SignUpPage.Link>
             <Button>Sign up for free</Button>
-          </AuthRoute.SignUp.Link>
+          </SignUpPage.Link>
         </>
       )}
     </div>

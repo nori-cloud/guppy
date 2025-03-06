@@ -1,8 +1,8 @@
 "use server"
 
 import { profileDB } from "@/db/profile"
+import { DashboardPage } from "@/system/route"
 import { revalidatePath } from "next/cache"
-import { DashboardPage } from "./route"
 
 export async function createProfile(name: string) {
   await profileDB.create({ name })

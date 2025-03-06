@@ -10,7 +10,7 @@ export function DevicePreview({ profileName }: DevicePreviewProps) {
   }))()
 
   return (
-    <div className="shadow-foreground/80 border-foreground relative flex aspect-[9/19] w-[300px] flex-col rounded-3xl border-4 shadow-md">
+    <div className="shadow-foreground/80 border-foreground relative flex aspect-[9/19] w-3/4 max-w-2xs flex-col rounded-3xl border-4 shadow-md">
       <PublicProfilePage params={params} />
     </div>
   )

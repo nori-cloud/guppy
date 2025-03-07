@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache"
 
 export async function createProfile(name: string) {
   await profileDB.create({ name })
-  revalidatePath(DashboardPage.Url)
+  revalidatePath(DashboardPage.Url())
 }
 
 export async function validateProfileName(name: string) {
@@ -17,5 +17,5 @@ export async function validateProfileName(name: string) {
 export async function deleteProfile(id: string) {
   await profileDB.remove(id)
 
-  revalidatePath(DashboardPage.Url)
+  revalidatePath(DashboardPage.Url())
 }

@@ -4,7 +4,7 @@ import { AnchorHTMLAttributes } from "react"
 
 type RouteObject<TParams extends object = object> = {
   Metadata: Metadata
-  Url: string
+  Url: (params?: TParams) => string
   Link: (
     params: {
       children: React.ReactNode
@@ -17,44 +17,40 @@ export const HomePage: RouteObject = {
   Metadata: {
     title: "Guppy",
   },
-  Url: "/",
-  Link: ({ children }) => <Link href="/">{children}</Link>,
+  Url: () => "/",
+  Link: ({ children }) => <Link href={HomePage.Url()}>{children}</Link>,
 }
 
 export const SignInPage: RouteObject = {
   Metadata: {
     title: "Guppy | Sign in",
   },
-  Url: "/auth/sign-in",
-  Link: ({ children }) => {
-    return <Link href={SignInPage.Url}>{children}</Link>
-  },
+  Url: () => "/auth/sign-in",
+  Link: ({ children }) => <Link href={SignInPage.Url()}>{children}</Link>,
 }
 
 export const SignUpPage: RouteObject = {
   Metadata: {
     title: "Guppy | Sign up",
   },
-  Url: "/auth/sign-up",
-  Link: ({ children }) => {
-    return <Link href={SignUpPage.Url}>{children}</Link>
-  },
+  Url: () => "/auth/sign-up",
+  Link: ({ children }) => <Link href={SignUpPage.Url()}>{children}</Link>,
 }
 
 export const DashboardPage: RouteObject = {
   Metadata: {
     title: "Guppy | Dashboard",
   },
-  Url: "/dashboard",
-  Link: ({ children }) => <Link href="/dashboard">{children}</Link>,
+  Url: () => "/dashboard",
+  Link: ({ children }) => <Link href={DashboardPage.Url()}>{children}</Link>,
 }
 
 export const EditorPage: RouteObject<{ name: string }> = {
   Metadata: {
     title: "Guppy | Editor",
   },
-  Url: "/editor",
+  Url: (params) => `/${params?.name}/editor`,
   Link: ({ children, name }) => (
-    <Link href={`${EditorPage.Url}/${name}`}>{children}</Link>
+    <Link href={EditorPage.Url({ name })}>{children}</Link>
   ),
 }

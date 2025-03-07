@@ -45,7 +45,7 @@ function InitialProfileForm() {
       name: formData.get("name") as string,
     })
 
-    revalidatePath(DashboardPage.Url)
+    revalidatePath(DashboardPage.Url())
   }
 
   return (

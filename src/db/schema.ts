@@ -103,6 +103,7 @@ export const profiles = pgTable("profile", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name").notNull().unique(),
+  title: text("title"),
   bio: text("bio"),
   image: text("image"),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),

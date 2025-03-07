@@ -11,7 +11,7 @@ export default async function ProtectedLayout({
   const currentUser = await getCurrentUser()
 
   if (!currentUser) {
-    redirect(SignInPage.Url)
+    redirect(SignInPage.Url())
   }
 
   return <div className="container max-h-screen max-w-screen">{children}</div>

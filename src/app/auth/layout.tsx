@@ -11,7 +11,7 @@ export default async function AuthLayout({
   const currentUser = await getCurrentUser()
 
   if (!!currentUser) {
-    redirect(DashboardPage.Url)
+    redirect(DashboardPage.Url())
   }
 
   return (

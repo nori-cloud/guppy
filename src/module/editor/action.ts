@@ -29,7 +29,7 @@ export async function getProfileByName(name: string) {
 export async function updateProfile(profile: UpdateProfileInput) {
   await profileDB.update(profile)
 
-  revalidatePath(`${EditorPage.Url}/${profile.id}`)
+  revalidatePath(EditorPage.Url())
 }
 
 export async function createLink(link: CreateLinkInput) {
@@ -38,7 +38,7 @@ export async function createLink(link: CreateLinkInput) {
 
   await linkDB.create({ ...link, title, enabled: !!title && !!link.url })
 
-  revalidatePath(`${EditorPage.Url}/${link.profileId}`)
+  revalidatePath(EditorPage.Url())
 }
 
 export async function updateLink(link: UpdateLinkInput & { profileId: string }) {
@@ -48,19 +48,19 @@ export async function updateLink(link: UpdateLinkInput & { profileId: string }) 
 
   await linkDB.update({ ...link, title, enabled: !!title && !!link.url && link.enabled })
 
-  revalidatePath(`${EditorPage.Url}/${link.profileId}`)
+  revalidatePath(EditorPage.Url())
 }
 
 export async function reorderLinks(links: Link[]) {
   await linkDB.reorder(links)
 
-  revalidatePath(`${EditorPage.Url}/${links[0].profileId}`)
+  revalidatePath(EditorPage.Url())
 }
 
 export async function removeLink(id: number) {
   await linkDB.remove(id)
 
-  revalidatePath(`${EditorPage.Url}/${id}`)
+  revalidatePath(EditorPage.Url())
 }
 
 type LinkMetadata = {

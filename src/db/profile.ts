@@ -1,6 +1,7 @@
-import { eq } from "drizzle-orm"
+import { eq, sql } from "drizzle-orm"
 import { PgInsertValue } from "drizzle-orm/pg-core"
 import { db } from "."
+import { UpdateProfileInput } from "./model"
 import { profiles, usersToProfiles } from "./schema"
 import { getCurrentUser } from "./user"
 
@@ -70,6 +71,13 @@ async function getByName(name: string) {
   return profile
 }
 
+async function update(profile: UpdateProfileInput) {
+  await db.update(profiles).set({
+    ...profile,
+    updatedAt: sql`NOW()`
+  }).where(eq(profiles.id, profile.id))
+}
+
 async function remove(id: string) {
   const currentUser = await getCurrentUser()
 
@@ -106,5 +114,6 @@ export const profileDB = {
   create,
   getById,
   getByName,
+  update,
   remove,
 }

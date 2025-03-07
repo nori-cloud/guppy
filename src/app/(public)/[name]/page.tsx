@@ -13,7 +13,7 @@ export default async function PublicProfilePage({
   const profile = await profileDB.getByName(name)
 
   if (!profile) {
-    redirect(HomePage.Url)
+    redirect(HomePage.Url())
   }
 
   const initials = profile.name

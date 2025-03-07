@@ -35,6 +35,7 @@ export default async function Page({
           links={profile.links}
           onCreateLink={async () => {
             "use server"
+
             await createLink({
               profileId: profile.id,
               title: "",

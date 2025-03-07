@@ -44,6 +44,7 @@ export async function UserMenu({
           <form
             action={async () => {
               "use server"
+
               await signOut()
             }}
           >

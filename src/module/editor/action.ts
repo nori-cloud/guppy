@@ -1,6 +1,7 @@
 "use server"
+
 import { linkDB } from "@/db/link"
-import { CreateLinkInput, Link, UpdateLinkInput } from "@/db/model"
+import { CreateLinkInput, Link, UpdateLinkInput, UpdateProfileInput } from "@/db/model"
 import { profileDB } from "@/db/profile"
 import { EditorPage } from "@/system/route"
 import { revalidatePath } from "next/cache"
@@ -23,6 +24,12 @@ export async function getProfileByName(name: string) {
   }
 
   return profile
+}
+
+export async function updateProfile(profile: UpdateProfileInput) {
+  await profileDB.update(profile)
+
+  revalidatePath(`${EditorPage.Url}/${profile.id}`)
 }
 
 export async function createLink(link: CreateLinkInput) {

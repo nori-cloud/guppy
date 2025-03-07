@@ -14,6 +14,7 @@ export default async function Page() {
           className="w-full"
           action={async () => {
             "use server"
+
             await signIn("github")
           }}
         >
@@ -23,6 +24,7 @@ export default async function Page() {
           className="w-full"
           action={async () => {
             "use server"
+
             await signIn("discord")
           }}
         >

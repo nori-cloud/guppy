@@ -9,13 +9,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { CurrentUser } from "@/db/model"
+import { cn } from "@/lib/utils"
 import { signOut } from "@/system/auth"
 
-export default function UserMenu({ user }: { user: CurrentUser }) {
-  if (!user) {
-    return <></>
-  }
-
+export async function UserMenu({
+  user,
+  className,
+}: {
+  user: CurrentUser
+  className?: string
+}) {
   const initial = user.name
     ?.split(" ")
     .map((name) => name[0])
@@ -24,7 +27,12 @@ export default function UserMenu({ user }: { user: CurrentUser }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="fixed bottom-6 left-6 size-12 cursor-pointer outline-2 transition-colors hover:outline-neutral-200">
+        <Avatar
+          className={cn(
+            "size-12 cursor-pointer outline-2 transition-colors hover:outline-neutral-200",
+            className,
+          )}
+        >
           {user?.image && <AvatarImage src={user.image} alt={user.name} />}
           <AvatarFallback>{initial}</AvatarFallback>
         </Avatar>

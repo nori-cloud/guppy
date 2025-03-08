@@ -32,6 +32,15 @@ export async function updateProfile(profile: UpdateProfileInput) {
   revalidatePath(SettingsPage.Url())
 }
 
+export async function generateRandomProfileImage() {
+  const randomId = Math.floor(Math.random() * 301)
+  const response = await fetch(`https://picsum.photos/id/${randomId}/200/300`)
+
+  revalidatePath(SettingsPage.Url())
+
+  return response.url
+}
+
 export async function createLink(link: CreateLinkInput) {
   const metadata = await getLinkMetadata(link.url)
   const title = (!!metadata.title && link.title === "") ? metadata.title : link.title

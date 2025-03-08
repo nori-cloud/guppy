@@ -10,6 +10,9 @@ export function LinkCard({ link }: { link: Link }) {
     case "youtube":
       return <YoutubeLink link={link} />
 
+    case "image":
+      return <ImageLink link={link} />
+
     default:
       return <></>
   }
@@ -65,4 +68,16 @@ function extractYoutubeVideoId(url: string): string {
     // Return default video ID if parsing fails
     return defaultVideoId
   }
+}
+
+function ImageLink({ link }: { link: Link }) {
+  return (
+    <div className="flex items-center justify-between gap-1 overflow-clip rounded-lg bg-zinc-800 p-1 transition-colors hover:bg-zinc-700">
+      <img
+        src={link.url}
+        alt={link.title}
+        className="h-full w-full rounded-md object-contain"
+      />
+    </div>
+  )
 }

@@ -56,6 +56,16 @@ export default async function Page({
         >
           <Button type="submit">Youtube Link</Button>
         </form>
+
+        <form
+          action={async () => {
+            "use server"
+
+            await handleCreateEmptyLink("image")
+          }}
+        >
+          <Button type="submit">Image Link</Button>
+        </form>
       </Card>
 
       <SortableLinkList

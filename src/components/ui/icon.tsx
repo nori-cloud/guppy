@@ -6,6 +6,8 @@ import {
   Ellipsis,
   GripVertical,
   Home,
+  Image,
+  Link,
   Loader2,
   LucideProps,
   Pencil,
@@ -14,6 +16,7 @@ import {
   Trash,
   X,
   XCircle,
+  Youtube,
 } from "lucide-react"
 
 const icons = {
@@ -31,6 +34,9 @@ const icons = {
   settings: Settings,
   editor: PencilRuler,
   ellipsis: Ellipsis,
+  generic: Link,
+  youtube: Youtube,
+  image: Image,
 }
 
 export type Icons = keyof typeof icons

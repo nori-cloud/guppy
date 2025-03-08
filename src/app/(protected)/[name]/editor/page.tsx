@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { Icon } from "@/components/ui/icon"
 import { Link } from "@/db/model"
 import {
   createLink,
@@ -44,7 +45,9 @@ export default async function Page({
             await handleCreateEmptyLink("generic")
           }}
         >
-          <Button type="submit">Generic Link</Button>
+          <Button type="submit">
+            <Icon icon="generic" /> New Link
+          </Button>
         </form>
 
         <form
@@ -54,7 +57,9 @@ export default async function Page({
             await handleCreateEmptyLink("youtube")
           }}
         >
-          <Button type="submit">Youtube Link</Button>
+          <Button type="submit">
+            <Icon icon="youtube" /> Youtube
+          </Button>
         </form>
 
         <form
@@ -64,7 +69,9 @@ export default async function Page({
             await handleCreateEmptyLink("image")
           }}
         >
-          <Button type="submit">Image Link</Button>
+          <Button type="submit">
+            <Icon icon="image" /> Image
+          </Button>
         </form>
       </Card>
 

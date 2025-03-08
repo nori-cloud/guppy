@@ -35,7 +35,7 @@ export default async function Page({
   }
 
   return (
-    <div className="flex flex-3 flex-col gap-6 overflow-x-clip overflow-y-auto p-6">
+    <div className="flex flex-3 flex-col gap-6 overflow-y-auto p-6">
       <Card className="flex-row gap-4 p-4">
         <form
           action={async () => {

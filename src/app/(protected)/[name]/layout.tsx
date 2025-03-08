@@ -18,10 +18,10 @@ export default async function Layout({
   const profile = await getProfileByName(name)
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen max-h-screen flex-col">
       <Toolbar profile={profile} />
 
-      <div className="flex flex-1 flex-col-reverse gap-4 md:flex-row md:divide-x">
+      <div className="flex flex-1 flex-col-reverse gap-4 overflow-hidden md:flex-row md:divide-x">
         {children}
 
         <div className="flex flex-2 items-center justify-center p-6">

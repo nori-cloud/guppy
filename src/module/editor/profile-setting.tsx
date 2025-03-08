@@ -101,7 +101,12 @@ function AvatarEditor({ onUpdate }: { onUpdate: (url: string) => void }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <Button type="button" variant="outline" isLoading={isLoading}>
+      <Button
+        type="button"
+        variant="outline"
+        disabled={true}
+        isLoading={isLoading}
+      >
         Upload New Avatar
       </Button>
       <Button

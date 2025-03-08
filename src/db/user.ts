@@ -43,6 +43,7 @@ export async function getCurrentUser() {
       role: userToProfile.role,
       name: userToProfile.profile.name,
       image: userToProfile.profile.image,
+      title: userToProfile.profile.title,
     })),
   }
 }

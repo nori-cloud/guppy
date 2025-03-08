@@ -33,7 +33,7 @@ export default async function PublicProfilePage({
         <p className="text-muted-foreground text-sm">{profile.bio}</p>
       </div>
 
-      <div className="flex w-full max-w-2xl flex-1 flex-col gap-3 overflow-y-auto">
+      <div className="flex w-full max-w-2xl flex-1 flex-col gap-3 pb-24">
         {profile.links
           .filter((link) => link.enabled)
           .map((link, index) => (
@@ -41,10 +41,10 @@ export default async function PublicProfilePage({
           ))}
       </div>
 
-      <div className="mt-auto flex items-center justify-center gap-1 py-6">
+      <div className="bg-background sticky bottom-0 mt-auto flex w-full items-center justify-center gap-1 py-3 text-xs">
         {"Power by "}
         <HomePage.Link>
-          <span className="text-2xl font-bold hover:underline">Guppy</span>
+          <span className="text-lg font-bold hover:underline">Guppy</span>
         </HomePage.Link>
       </div>
     </main>

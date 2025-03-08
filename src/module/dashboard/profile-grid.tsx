@@ -161,14 +161,14 @@ function CreateProfileForm({
 export function ProfileGrid({
   profiles,
 }: {
-  profiles: Omit<Profile, "links">[]
+  profiles: Omit<Profile, "links" | "bio" | "createdAt" | "updatedAt">[]
 }) {
   const [optimisticProfiles, setOptimisticProfiles] = useOptimistic(profiles)
 
   const handleOptimisticCreateProfile = async (name: string) => {
     setOptimisticProfiles([
       ...optimisticProfiles,
-      { id: "optimistic", name, image: null, role: "owner" },
+      { id: "optimistic", name, image: null, role: "owner", title: name },
     ])
     await createProfile(name)
   }

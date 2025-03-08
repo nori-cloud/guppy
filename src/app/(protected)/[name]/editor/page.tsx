@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { Link } from "@/db/model"
 import {
   createLink,
   getProfileByName,
@@ -21,23 +22,39 @@ export default async function Page({
 
   const profile = await getProfileByName(name)
 
+  const handleCreateEmptyLink = async (type: Link["type"]) => {
+    "use server"
+
+    await createLink({
+      profileId: profile.id,
+      title: "",
+      url: "",
+      type,
+      order: profile.links.length,
+    })
+  }
+
   return (
     <div className="flex flex-3 flex-col gap-6 overflow-x-clip overflow-y-auto p-6">
-      <Card className="p-4">
+      <Card className="flex-row gap-4 p-4">
         <form
           action={async () => {
             "use server"
 
-            await createLink({
-              profileId: profile.id,
-              title: "",
-              url: "",
-              type: "generic",
-              order: profile.links.length,
-            })
+            await handleCreateEmptyLink("generic")
           }}
         >
-          <Button type="submit">New Link</Button>
+          <Button type="submit">Generic Link</Button>
+        </form>
+
+        <form
+          action={async () => {
+            "use server"
+
+            await handleCreateEmptyLink("youtube")
+          }}
+        >
+          <Button type="submit">Youtube Link</Button>
         </form>
       </Card>
 

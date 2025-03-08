@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import Link from "next/link"
+import NextLink from "next/link"
 import { AnchorHTMLAttributes } from "react"
 
 type RouteObject<TParams extends object = object> = {
@@ -11,6 +11,23 @@ type RouteObject<TParams extends object = object> = {
     } & AnchorHTMLAttributes<HTMLAnchorElement> &
       TParams,
   ) => React.ReactNode
+}
+
+type LinkProps<TParams extends object = object> = {
+  children: React.ReactNode
+  href: string
+} & AnchorHTMLAttributes<HTMLAnchorElement> &
+  TParams
+function Link<TParams extends object = object>({
+  children,
+  href,
+  ...props
+}: LinkProps<TParams>) {
+  return (
+    <NextLink {...props} href={href}>
+      {children}
+    </NextLink>
+  )
 }
 
 export const HomePage: RouteObject = {
@@ -52,5 +69,15 @@ export const EditorPage: RouteObject<{ name: string }> = {
   Url: (params) => `/${params?.name}/editor`,
   Link: ({ children, name }) => (
     <Link href={EditorPage.Url({ name })}>{children}</Link>
+  ),
+}
+
+export const SettingsPage: RouteObject<{ name: string }> = {
+  Metadata: {
+    title: "Guppy | Settings",
+  },
+  Url: (params) => `/${params?.name}/settings`,
+  Link: ({ children, name }) => (
+    <Link href={SettingsPage.Url({ name })}>{children}</Link>
   ),
 }

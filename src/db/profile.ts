@@ -24,11 +24,6 @@ async function create(data: PgInsertValue<typeof profiles>) {
 
 async function getById(id: string) {
   const profile = await db.query.profiles.findFirst({
-    columns: {
-      id: true,
-      name: true,
-      image: true,
-    },
     where: (profiles, { eq }) => eq(profiles.id, id),
     with: {
       links: {

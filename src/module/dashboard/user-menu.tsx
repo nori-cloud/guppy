@@ -11,6 +11,7 @@ import {
 import { CurrentUser } from "@/db/model"
 import { cn } from "@/lib/utils"
 import { signOut } from "@/system/auth"
+import { getInitials } from "@/system/formatter"
 
 export async function UserMenu({
   user,
@@ -19,10 +20,7 @@ export async function UserMenu({
   user: CurrentUser
   className?: string
 }) {
-  const initial = user.name
-    ?.split(" ")
-    .map((name) => name[0])
-    .join("")
+  const initials = getInitials(user.name)
 
   return (
     <DropdownMenu>
@@ -34,7 +32,7 @@ export async function UserMenu({
           )}
         >
           {user?.image && <AvatarImage src={user.image} alt={user.name} />}
-          <AvatarFallback>{initial}</AvatarFallback>
+          <AvatarFallback>{initials}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mx-4 my-2 w-56">

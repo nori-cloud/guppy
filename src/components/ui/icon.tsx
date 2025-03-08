@@ -8,6 +8,8 @@ import {
   Loader2,
   LucideProps,
   Pencil,
+  PencilRuler,
+  Settings,
   Trash,
   X,
   XCircle,
@@ -25,6 +27,8 @@ const icons = {
   ["grip-vertical"]: GripVertical,
   edit: Pencil,
   home: Home,
+  settings: Settings,
+  editor: PencilRuler,
 }
 
 export type Icons = keyof typeof icons

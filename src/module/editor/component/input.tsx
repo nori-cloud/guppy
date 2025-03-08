@@ -10,7 +10,7 @@ interface EditableInputProps {
   schema?: z.ZodSchema
 }
 
-export default function EditableInput({
+export function EditableInput({
   defaultValue = "",
   onSave,
   className = "",

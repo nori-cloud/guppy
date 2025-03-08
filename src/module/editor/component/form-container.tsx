@@ -8,7 +8,7 @@ type FormContainerProps = {
 
 export function FormContainer({ errorMessage, ...props }: FormContainerProps) {
   return (
-    <form className="flex w-md flex-col" onSubmit={props.onSubmit}>
+    <form className="flex w-full flex-col" onSubmit={props.onSubmit}>
       {!!errorMessage && <p className="text-red-500">{errorMessage}</p>}
       {props.children}
     </form>

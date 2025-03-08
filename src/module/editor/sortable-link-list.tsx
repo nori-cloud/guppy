@@ -22,7 +22,7 @@ import {
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { z } from "zod"
-import EditableInput from "./component/input"
+import { EditableInput } from "./component/input"
 
 export function SortableLinkList({
   links,

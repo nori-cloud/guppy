@@ -1,5 +1,6 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { profileDB } from "@/db/profile"
+import { getInitials } from "@/system/formatter"
 import { HomePage } from "@/system/route"
 import { redirect } from "next/navigation"
 
@@ -16,19 +17,19 @@ export default async function PublicProfilePage({
     redirect(HomePage.Url())
   }
 
-  const initials = profile.name
-    .split("-")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
+  const title = profile.title ?? profile.name
+
+  const initials = getInitials(title)
 
   return (
     <main className="absolute inset-0 flex flex-col items-center px-4 pt-[10%]">
       <div className="mb-8 flex flex-col items-center gap-2">
-        <Avatar className="size-16 text-xl">
+        <Avatar className="size-16">
+          <AvatarImage src={profile.image ?? undefined} />
           <AvatarFallback>{initials}</AvatarFallback>
         </Avatar>
-        <h2 className="text-lg font-medium">{name}</h2>
+        <h2 className="text-lg font-medium">{title}</h2>
+        <p className="text-muted-foreground text-sm">{profile.bio}</p>
       </div>
 
       <div className="flex max-w-2xl flex-1 flex-col gap-3 overflow-y-auto">

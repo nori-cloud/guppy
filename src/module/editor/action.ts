@@ -3,7 +3,7 @@
 import { linkDB } from "@/db/link"
 import { CreateLinkInput, Link, UpdateLinkInput, UpdateProfileInput } from "@/db/model"
 import { profileDB } from "@/db/profile"
-import { EditorPage } from "@/system/route"
+import { EditorPage, SettingsPage } from "@/system/route"
 import { revalidatePath } from "next/cache"
 
 export async function getProfileById(id: string) {
@@ -29,7 +29,7 @@ export async function getProfileByName(name: string) {
 export async function updateProfile(profile: UpdateProfileInput) {
   await profileDB.update(profile)
 
-  revalidatePath(EditorPage.Url())
+  revalidatePath(SettingsPage.Url())
 }
 
 export async function createLink(link: CreateLinkInput) {

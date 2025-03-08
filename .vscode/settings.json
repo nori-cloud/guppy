@@ -1,0 +1,18 @@
+{
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "class:list",
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "cva\\(((?:[^()]|\\([^()]*\\))*)\\)",
+      "[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    [
+      "cx\\(((?:[^()]|\\([^()]*\\))*)\\)",
+      "(?:'|\"|`)([^']*)(?:'|\"|`)"
+    ]
+  ]
+}

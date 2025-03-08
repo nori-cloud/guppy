@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { profileDB } from "@/db/profile"
+import { LinkCard } from "@/module/profile/link-card"
 import { getInitials } from "@/system/formatter"
 import { HomePage } from "@/system/route"
 import { redirect } from "next/navigation"
@@ -32,19 +33,11 @@ export default async function PublicProfilePage({
         <p className="text-muted-foreground text-sm">{profile.bio}</p>
       </div>
 
-      <div className="flex max-w-2xl flex-1 flex-col gap-3 overflow-y-auto">
+      <div className="flex w-full max-w-2xl flex-1 flex-col gap-3 overflow-y-auto">
         {profile.links
           .filter((link) => link.enabled)
           .map((link, index) => (
-            <a
-              key={index}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative flex items-center justify-between rounded-lg bg-zinc-800 px-4 py-3 text-left transition-colors hover:bg-zinc-700"
-            >
-              <span className="text-sm">{link.title}</span>
-            </a>
+            <LinkCard key={index} link={link} />
           ))}
       </div>
 

@@ -3,6 +3,7 @@ import {
   ArrowRight,
   Check,
   CheckCircle,
+  Ellipsis,
   GripVertical,
   Home,
   Loader2,
@@ -29,6 +30,7 @@ const icons = {
   home: Home,
   settings: Settings,
   editor: PencilRuler,
+  ellipsis: Ellipsis,
 }
 
 export type Icons = keyof typeof icons

@@ -27,15 +27,6 @@ async function getById(id: string) {
     where: (profiles, { eq }) => eq(profiles.id, id),
     with: {
       links: {
-        columns: {
-          id: true,
-          profileId: true,
-          order: true,
-          url: true,
-          title: true,
-          type: true,
-          enabled: true,
-        },
         orderBy: (links, { asc }) => asc(links.order),
       },
     },
@@ -49,15 +40,6 @@ async function getByName(name: string) {
     where: (profiles, { eq }) => eq(profiles.name, name),
     with: {
       links: {
-        columns: {
-          id: true,
-          profileId: true,
-          order: true,
-          url: true,
-          title: true,
-          type: true,
-          enabled: true,
-        },
         orderBy: (links, { asc }) => asc(links.order),
       },
     },

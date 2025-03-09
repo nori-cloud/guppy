@@ -1,4 +1,5 @@
 import { Icon } from "@/components/ui/icon"
+import { cn } from "@/lib/utils"
 import { useEffect, useRef, useState } from "react"
 import { z } from "zod"
 
@@ -8,6 +9,7 @@ interface EditableInputProps {
   className?: string
   placeholder?: string
   schema?: z.ZodSchema
+  disabled?: boolean
 }
 
 export function EditableInput({
@@ -16,6 +18,7 @@ export function EditableInput({
   className = "",
   placeholder = "Click to edit",
   schema,
+  disabled,
 }: EditableInputProps) {
   const [error, setError] = useState<string | null>(null)
   const [isEditing, setIsEditing] = useState(false)
@@ -35,7 +38,7 @@ export function EditableInput({
   }, [defaultValue])
 
   const handleClick = () => {
-    if (!isEditing) {
+    if (!isEditing && !disabled) {
       setIsEditing(true)
     }
   }
@@ -89,11 +92,19 @@ export function EditableInput({
           {error && <p className="text-red-500">{error}</p>}
         </>
       ) : (
-        <div className="group flex cursor-pointer items-center">
+        <div
+          className={cn(
+            "group flex items-center",
+            !disabled && "cursor-pointer",
+          )}
+        >
           {value || <span className="text-foreground/30">{placeholder}</span>}
           <Icon
             icon="edit"
-            className="ml-2 inline-block size-3 opacity-0 group-hover:opacity-100"
+            className={cn(
+              "ml-2 inline-block size-3 opacity-0",
+              !disabled && "group-hover:opacity-100",
+            )}
           />
         </div>
       )}

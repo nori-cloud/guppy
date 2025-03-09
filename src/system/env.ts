@@ -13,6 +13,9 @@ const envSchema = z.object({
   Drizzle: z.object({
     DatabaseUrl: z.string(),
   }),
+  Steam: z.object({
+    APIKey: z.string(),
+  }),
 })
 
 export const env = envSchema.parse({
@@ -29,5 +32,8 @@ export const env = envSchema.parse({
   },
   Drizzle: {
     DatabaseUrl: process.env.DATABASE_URL as string,
+  },
+  Steam: {
+    APIKey: process.env.STEAM_API_KEY as string,
   },
 })

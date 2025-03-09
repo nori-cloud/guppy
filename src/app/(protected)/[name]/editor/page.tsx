@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Icon } from "@/components/ui/icon"
+import { Icon, SocialIcon } from "@/components/ui/icon"
 import { Link } from "@/db/model"
 import {
   createLink,
@@ -26,9 +26,11 @@ export default async function Page({
   const handleCreateEmptyLink = async (type: Link["type"]) => {
     "use server"
 
+    const title = ["steam"].includes(type) ? type : ""
+
     await createLink({
       profileId: profile.id,
-      title: "",
+      title,
       url: "",
       type,
       order: profile.links.length,
@@ -58,7 +60,7 @@ export default async function Page({
           }}
         >
           <Button type="submit">
-            <Icon icon="youtube" /> Youtube
+            <SocialIcon social="youtube" /> Youtube
           </Button>
         </form>
 
@@ -71,6 +73,18 @@ export default async function Page({
         >
           <Button type="submit">
             <Icon icon="image" /> Image
+          </Button>
+        </form>
+
+        <form
+          action={async () => {
+            "use server"
+
+            await handleCreateEmptyLink("steam")
+          }}
+        >
+          <Button type="submit">
+            <SocialIcon social="steam" /> Steam
           </Button>
         </form>
       </Card>

@@ -72,6 +72,16 @@ export const EditorPage: RouteObject<{ name: string }> = {
   ),
 }
 
+export const ConnectionPage: RouteObject<{ name: string }> = {
+  Metadata: {
+    title: "Guppy | Connection",
+  },
+  Url: (params) => `/${params?.name}/connection`,
+  Link: ({ children, name }) => (
+    <Link href={ConnectionPage.Url({ name })}>{children}</Link>
+  ),
+}
+
 export const SettingsPage: RouteObject<{ name: string }> = {
   Metadata: {
     title: "Guppy | Settings",

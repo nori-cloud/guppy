@@ -14,7 +14,7 @@ export default async function SettingPage({
   const profile = await getProfileByName(name)
 
   return (
-    <div className="flex flex-3 flex-col p-6">
+    <div className="flex flex-3 p-6">
       <ProfileSetting profile={profile} onUpdate={updateProfile} />
     </div>
   )

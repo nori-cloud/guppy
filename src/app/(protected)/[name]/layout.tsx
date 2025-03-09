@@ -3,7 +3,12 @@ import { Icon } from "@/components/ui/icon"
 import { Profile } from "@/db/model"
 import { getProfileByName } from "@/module/editor/action"
 import { DevicePreview } from "@/module/editor/component/device-preview"
-import { DashboardPage, EditorPage, SettingsPage } from "@/system/route"
+import {
+  ConnectionPage,
+  DashboardPage,
+  EditorPage,
+  SettingsPage,
+} from "@/system/route"
 import React from "react"
 
 export default async function Layout({
@@ -51,6 +56,12 @@ function Toolbar({ profile }: { profile: Profile }) {
             <Icon icon="editor" />
           </Button>
         </EditorPage.Link>
+
+        <ConnectionPage.Link name={profile.name}>
+          <Button title="Connection">
+            <Icon icon="connection" />
+          </Button>
+        </ConnectionPage.Link>
 
         <SettingsPage.Link name={profile.name}>
           <Button title="Settings">

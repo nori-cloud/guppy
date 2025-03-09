@@ -143,7 +143,7 @@ export const usersToProfilesRelations = relations(
   }),
 )
 
-export type LinkType = "generic" | "youtube" | "image"
+export type LinkType = "generic" | "youtube" | "image" | "steam"
 export const links = pgTable("link", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   profileId: text("profileId")

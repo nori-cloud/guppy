@@ -1,6 +1,7 @@
 import {
   ArrowLeft,
   ArrowRight,
+  Boxes,
   Check,
   CheckCircle,
   Ellipsis,
@@ -16,7 +17,6 @@ import {
   Trash,
   X,
   XCircle,
-  Youtube,
 } from "lucide-react"
 
 const icons = {
@@ -35,15 +35,34 @@ const icons = {
   editor: PencilRuler,
   ellipsis: Ellipsis,
   generic: Link,
-  youtube: Youtube,
   image: Image,
+  connection: Boxes,
 }
 
-export type Icons = keyof typeof icons
-export type IconProps = {
-  icon: Icons
-} & LucideProps
-export function Icon({ icon, ...props }: IconProps) {
+export function Icon({
+  icon,
+  ...props
+}: {
+  icon: keyof typeof icons
+} & LucideProps) {
   const I = icons[icon]
   return <I {...props} />
+}
+
+import { faSteam, faYoutube } from "@fortawesome/free-brands-svg-icons"
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from "@fortawesome/react-fontawesome"
+
+const socialIcons = {
+  youtube: faYoutube,
+  steam: faSteam,
+}
+
+export function SocialIcon({
+  social,
+  ...props
+}: { social: keyof typeof socialIcons } & Omit<FontAwesomeIconProps, "icon">) {
+  return <FontAwesomeIcon icon={socialIcons[social]} {...props} />
 }

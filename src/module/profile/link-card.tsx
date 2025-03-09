@@ -13,6 +13,9 @@ export function LinkCard({ link }: { link: Link }) {
     case "image":
       return <ImageLink link={link} />
 
+    case "steam":
+      return <SteamLink link={link} />
+
     default:
       return <></>
   }
@@ -78,6 +81,14 @@ function ImageLink({ link }: { link: Link }) {
         alt={link.title}
         className="h-full w-full rounded-md object-contain"
       />
+    </div>
+  )
+}
+
+function SteamLink({ link }: { link: Link }) {
+  return (
+    <div className="flex items-center justify-between gap-1 overflow-clip rounded-lg bg-zinc-800 p-1 transition-colors hover:bg-zinc-700">
+      <p className="p-2 text-sm">{`Steam ID: ${link.url}`}</p>
     </div>
   )
 }

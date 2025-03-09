@@ -112,6 +112,7 @@ function SortableLinkCard({
     >
       <CardHeader className="flex flex-row items-center justify-between">
         <EditableInput
+          disabled={link.type === "steam"}
           onSave={(title) => onLinkUpdate({ ...link, title })}
           defaultValue={link.title}
         />
@@ -130,7 +131,11 @@ function SortableLinkCard({
         <EditableInput
           onSave={(url) => onLinkUpdate({ ...link, url })}
           defaultValue={link.url}
-          schema={z.string().url({ message: "Link must be a valid URL" })}
+          schema={
+            link.type === "steam"
+              ? z.any()
+              : z.string().url({ message: "Link must be a valid URL" })
+          }
         />
       </CardContent>
 

@@ -5,6 +5,7 @@ import {
   Check,
   CheckCircle,
   Ellipsis,
+  ExternalLink,
   GripVertical,
   Home,
   Image,
@@ -37,6 +38,7 @@ const icons = {
   generic: Link,
   image: Image,
   connection: Boxes,
+  "external-link": ExternalLink,
 }
 
 export function Icon({

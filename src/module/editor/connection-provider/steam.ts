@@ -1,4 +1,3 @@
-'use server'
 import { env } from "@/system/env"
 
 type SteamAPIResponse<T> = {
@@ -16,21 +15,26 @@ type SteamGame = {
   playtime_linux_forever: number
   playtime_deck_forever: number
 }
-async function GetRecentlyPlayedGames(steamid: string) {
+export async function GetRecentlyPlayedGames(steamid: string) {
   const params = new URLSearchParams({
     key: env.Steam.APIKey,
     steamid,
     include_appinfo: "true",
   })
 
-  const response = await fetch(
-    "http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001?" +
-    params.toString(),
-  )
+  const url = "http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001?" +
+    params.toString()
+
+  const response = await fetch(url)
+
+  if (!response.ok) {
+    console.warn("failed to fetch recently played games for ", steamid, response.statusText)
+    return { data: null, error: await response.text() } as const
+  }
 
   const data: SteamAPIResponse<{ totalCount: number, games: SteamGame[] }> = await response.json()
 
-  return data;
+  return { data, error: null } as const;
 }
 
 type SteamPlayer = {
@@ -52,7 +56,7 @@ type SteamPlayer = {
   locstatecode: string
   loccityid: number
 }
-async function GetPlayerSummary(steamids: string) {
+export async function GetPlayerSummary(steamids: string) {
   const params = new URLSearchParams({
     key: env.Steam.APIKey,
     steamids,
@@ -63,13 +67,12 @@ async function GetPlayerSummary(steamids: string) {
     params.toString(),
   )
 
+  if (!response.ok) {
+    console.warn("failed to fetch player summary for ", steamids, response.statusText)
+    return { data: null, error: await response.text() } as const
+  }
+
   const data: SteamAPIResponse<{ players: SteamPlayer[] }> = await response.json()
 
-  return data;
-}
-
-
-export const SteamAPI = {
-  GetRecentlyPlayedGames,
-  GetPlayerSummary,
+  return { data, error: null } as const;
 }

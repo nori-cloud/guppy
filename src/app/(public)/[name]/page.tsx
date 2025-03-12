@@ -6,14 +6,6 @@ import { HomePage } from "@/system/route"
 import { ThemeToggle } from "@/system/theme"
 import { redirect } from "next/navigation"
 
-// in seconds
-export const revalidate = 3600
-export const dynamicParams = true
-
-export async function generateStaticParams() {
-  return []
-}
-
 export async function generateMetadata({
   params,
 }: {

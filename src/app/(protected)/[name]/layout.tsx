@@ -9,6 +9,7 @@ import {
   EditorPage,
   SettingsPage,
 } from "@/system/route"
+import { ThemeToggle } from "@/system/theme"
 import React from "react"
 
 export default async function Layout({
@@ -51,6 +52,8 @@ function Toolbar({ profile }: { profile: Profile }) {
       </div>
 
       <menu className="flex flex-row gap-2">
+        <ThemeToggle />
+
         <EditorPage.Link name={profile.name}>
           <Button title="Editor">
             <Icon icon="editor" />

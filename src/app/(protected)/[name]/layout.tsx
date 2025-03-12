@@ -1,15 +1,19 @@
 import { Button } from "@/components/ui/button"
 import { Icon } from "@/components/ui/icon"
-import { Profile } from "@/db/model"
+import { CurrentUser, Profile } from "@/db/model"
+import { getCurrentUser } from "@/db/user"
+import { UserMenu } from "@/module/dashboard/user-menu"
 import { getProfileByName } from "@/module/editor/action"
 import { DevicePreview } from "@/module/editor/component/device-preview"
 import {
   ConnectionPage,
   DashboardPage,
   EditorPage,
+  HomePage,
   SettingsPage,
 } from "@/system/route"
 import { ThemeToggle } from "@/system/theme"
+import { redirect } from "next/navigation"
 import React from "react"
 
 export default async function Layout({
@@ -21,11 +25,17 @@ export default async function Layout({
 }) {
   const { name } = await params
 
+  const currentUser = await getCurrentUser()
+
+  if (!currentUser) {
+    redirect(HomePage.Url())
+  }
+
   const profile = await getProfileByName(name)
 
   return (
     <div className="flex h-screen max-h-screen flex-col">
-      <Toolbar profile={profile} />
+      <Toolbar profile={profile} user={currentUser} />
 
       <div className="flex flex-1 flex-col-reverse gap-4 overflow-hidden md:flex-row md:divide-x">
         {children}
@@ -38,7 +48,7 @@ export default async function Layout({
   )
 }
 
-function Toolbar({ profile }: { profile: Profile }) {
+function Toolbar({ profile, user }: { profile: Profile; user: CurrentUser }) {
   return (
     <div className="flex justify-between gap-6 border-b p-4">
       <div className="flex flex-row items-center gap-2">
@@ -71,6 +81,8 @@ function Toolbar({ profile }: { profile: Profile }) {
             <Icon icon="settings" />
           </Button>
         </SettingsPage.Link>
+
+        <UserMenu className="size-9" user={user} />
       </menu>
     </div>
   )

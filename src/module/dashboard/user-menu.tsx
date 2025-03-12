@@ -5,7 +5,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { CurrentUser } from "@/db/model"
@@ -38,18 +37,20 @@ export async function UserMenu({
       <DropdownMenuContent className="mx-4 my-2 w-56">
         <DropdownMenuLabel>{`Hi, ${user.name}!`}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <form
-            action={async () => {
-              "use server"
+        <form
+          action={async () => {
+            "use server"
 
-              await signOut()
-            }}
-          >
-            <button type="submit">Sign out</button>
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-          </form>
-        </DropdownMenuItem>
+            await signOut()
+          }}
+        >
+          <DropdownMenuItem asChild>
+            <button type="submit" className="w-full cursor-pointer">
+              Sign out
+            </button>
+            {/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
+          </DropdownMenuItem>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   )

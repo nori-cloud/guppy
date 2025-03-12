@@ -37,7 +37,9 @@ async function reorder(newLinks: Link[]) {
 async function remove(id: number) {
   console.log(`remove link ${id}`)
 
-  await db.delete(links).where(eq(links.id, id))
+  const deletedLink = await db.delete(links).where(eq(links.id, id)).returning()
+
+  return deletedLink[0]
 }
 
 export const linkDB = {

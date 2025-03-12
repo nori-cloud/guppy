@@ -54,6 +54,13 @@ export const SignUpPage: RouteObject = {
   Link: ({ children }) => <Link href={SignUpPage.Url()}>{children}</Link>,
 }
 
+export const ProfilePage: RouteObject<{ id: string }> = {
+  Metadata: {},
+  Url: (params) => `/${params?.id}`,
+  Link: ({ children, id }) => (
+    <Link href={ProfilePage.Url({ id })}>{children}</Link>
+  ),
+}
 export const DashboardPage: RouteObject = {
   Metadata: {
     title: "Guppy | Dashboard",

@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card } from "@/components/ui/card"
 import { Icon } from "@/components/ui/icon"
+import { Skeleton } from "@/components/ui/skeleton"
 import { type Link } from "@/db/model"
 import { cn } from "@/lib/utils"
 import { formatPlaytime, getInitials } from "@/system/formatter"
@@ -116,20 +117,17 @@ function SteamLinkSkeleton() {
   return (
     <LinkContainer className="flex-col p-2 dark:hover:bg-zinc-800">
       <div className="flex items-center gap-2">
-        <div className="size-12 animate-pulse rounded-full bg-gray-200 dark:bg-zinc-700" />
+        <Skeleton className="size-12 rounded-full" />
         <div className="space-y-2">
-          <div className="h-4 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700" />
-          <div className="h-3 w-32 animate-pulse rounded bg-gray-200 dark:bg-zinc-700" />
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-3 w-32" />
         </div>
       </div>
       <div className="mt-4 space-y-2">
-        <div className="mx-auto h-3 w-32 animate-pulse rounded bg-gray-200 dark:bg-zinc-700" />
+        <Skeleton className="mx-auto h-3 w-32" />
         <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
           {[1, 2].map((i) => (
-            <div
-              key={i}
-              className="aspect-[460/215] animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
-            />
+            <Skeleton key={i} className="aspect-[460/215]" />
           ))}
         </div>
       </div>

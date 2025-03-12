@@ -34,7 +34,7 @@ function LinkContainer({
   children: React.ReactNode
   className?: string
 }) {
-  return <Card className={cn("p-1", className)}>{children}</Card>
+  return <Card className={cn("hover:bg-muted p-1", className)}>{children}</Card>
 }
 
 function GenericLink({ link }: { link: Link }) {
@@ -57,7 +57,7 @@ function YoutubeLink({ link }: { link: Link }) {
   const videoId = extractYoutubeVideoId(link.url)
 
   return (
-    <LinkContainer>
+    <LinkContainer className="hover:bg-transparent">
       <div className="aspect-video w-full">
         <iframe
           className="h-full w-full rounded-md"
@@ -91,7 +91,7 @@ function extractYoutubeVideoId(url: string): string {
 
 function ImageLink({ link }: { link: Link }) {
   return (
-    <LinkContainer>
+    <LinkContainer className="hover:bg-transparent">
       <img
         src={link.url}
         alt={link.title}
@@ -115,7 +115,7 @@ async function SteamLink({ link }: { link: Link }) {
 // Skeleton loader for SteamLink
 function SteamLinkSkeleton() {
   return (
-    <LinkContainer className="flex-col p-2 dark:hover:bg-zinc-800">
+    <LinkContainer className="flex-col p-2">
       <div className="flex items-center gap-2">
         <Skeleton className="size-12 rounded-full" />
         <div className="space-y-2">
@@ -147,7 +147,7 @@ async function SteamLinkContent({
 
   if (!steamInfo) {
     return (
-      <LinkContainer className="p-3 text-sm dark:hover:bg-zinc-800">
+      <LinkContainer className="p-3 text-sm hover:bg-transparent">
         {`Something went wrong when fetching data from Steam, check if your Steam
         ID is correct! [${url}]`}
       </LinkContainer>
@@ -155,7 +155,7 @@ async function SteamLinkContent({
   }
 
   return (
-    <LinkContainer className="flex-col p-2 dark:hover:bg-zinc-800">
+    <LinkContainer className="flex-col p-2 hover:bg-transparent">
       <div className="flex items-center gap-2">
         <Avatar className="size-12">
           <AvatarImage src={steamInfo.player.avatarfull} />

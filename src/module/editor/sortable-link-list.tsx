@@ -132,6 +132,7 @@ function SortableLinkCard({
         <EditableInput
           onSave={(url) => onLinkUpdate({ ...link, url })}
           defaultValue={link.url}
+          className="break-all"
           schema={
             link.type === "steam"
               ? z.any()

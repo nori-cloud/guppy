@@ -37,7 +37,7 @@ export default async function Layout({
     <div className="flex h-screen max-h-screen flex-col">
       <Toolbar profile={profile} user={currentUser} />
 
-      <div className="flex flex-1 flex-col-reverse gap-4 overflow-hidden md:flex-row md:divide-x">
+      <div className="flex flex-1 flex-col-reverse gap-4 md:flex-row md:divide-x md:overflow-hidden">
         {children}
 
         <div className="flex flex-2 items-center justify-center p-6">
@@ -50,7 +50,7 @@ export default async function Layout({
 
 function Toolbar({ profile, user }: { profile: Profile; user: CurrentUser }) {
   return (
-    <div className="flex justify-between gap-6 border-b p-4">
+    <div className="flex flex-wrap justify-between gap-6 border-b p-4">
       <div className="flex flex-row items-center gap-2">
         <DashboardPage.Link>
           <Button title="Go back toDashboard">
@@ -61,7 +61,7 @@ function Toolbar({ profile, user }: { profile: Profile; user: CurrentUser }) {
         <h1 className="text-2xl font-semibold">{profile.name}</h1>
       </div>
 
-      <menu className="flex flex-row gap-2">
+      <menu className="ml-auto flex flex-row gap-2">
         <ThemeToggle />
 
         <EditorPage.Link name={profile.name}>

@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Card } from "@/components/ui/card"
 import { Icon } from "@/components/ui/icon"
 import { type Link } from "@/db/model"
 import { cn } from "@/lib/utils"
@@ -31,16 +32,7 @@ function LinkContainer({
   children: React.ReactNode
   className?: string
 }) {
-  return (
-    <div
-      className={cn(
-        "flex items-center justify-between gap-1 overflow-clip rounded-lg p-1 transition-colors dark:bg-zinc-800 dark:hover:bg-zinc-700",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  )
+  return <Card className={cn("p-1", className)}>{children}</Card>
 }
 
 function GenericLink({ link }: { link: Link }) {
@@ -120,7 +112,7 @@ async function SteamLink({ link }: { link: Link }) {
   }
 
   return (
-    <LinkContainer className="p-2 dark:hover:bg-zinc-800">
+    <LinkContainer className="flex-col p-2 dark:hover:bg-zinc-800">
       <div className="flex items-center gap-2">
         <Avatar className="size-12">
           <AvatarImage src={steamInfo.player.avatarfull} />

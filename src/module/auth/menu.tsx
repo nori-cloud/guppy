@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { auth } from "@/system/auth"
-import { DashboardPage, SignInPage, SignUpPage } from "@/system/route"
+import { DashboardPage, SignInPage } from "@/system/route"
 
 export async function AuthMenu() {
   const session = await auth()
@@ -14,14 +14,9 @@ export async function AuthMenu() {
       )}
 
       {!session && (
-        <>
-          <SignInPage.Link>
-            <Button>Sign in</Button>
-          </SignInPage.Link>
-          <SignUpPage.Link>
-            <Button>Sign up for free</Button>
-          </SignUpPage.Link>
-        </>
+        <SignInPage.Link>
+          <Button>Sign in</Button>
+        </SignInPage.Link>
       )}
     </div>
   )

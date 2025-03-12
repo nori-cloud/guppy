@@ -1,4 +1,5 @@
 "use client"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Icon } from "@/components/ui/icon"
 import { Switch } from "@/components/ui/switch"
@@ -149,12 +150,13 @@ function SortableLinkCard({
           />
         </div>
 
-        <button
-          className="hover:border-background/80 border-background/20 text-foreground/80 hover:text-foreground rounded-md border p-1 transition-colors"
+        <Button
+          variant="destructive"
+          className="size-8"
           onClick={() => onLinkRemove(link.id)}
         >
-          <Icon icon="trash" className="size-4" />
-        </button>
+          <Icon icon="trash" />
+        </Button>
       </CardFooter>
     </Card>
   )

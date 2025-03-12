@@ -1,5 +1,6 @@
 "use client"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Profile } from "@/db/model"
 import { EditorPage } from "@/system/route"
@@ -194,21 +195,19 @@ export function ProfileGrid({
                 await handleOptimisticDeleteProfile(profile.id)
               }
             >
-              <button
-                type="submit"
-                className="hover:bg-destructive bg-destructive/80 cursor-pointer rounded-md px-2 py-1 transition-colors"
-              >
-                <Icon icon="trash" className="text-foreground size-4" />
-              </button>
+              <Button type="submit" variant="destructive" className="size-8">
+                <Icon icon="trash" />
+              </Button>
             </form>
 
             <EditorPage.Link name={profile.name}>
-              <button
+              <Button
+                variant="outline"
                 disabled={profile.id === "optimistic"}
-                className="hover:border-background/80 border-background/40 cursor-pointer rounded-md border px-2 py-1 transition-colors"
+                className="size-8"
               >
-                <Icon icon="arrow-right" className="size-4" />
-              </button>
+                <Icon icon="arrow-right" />
+              </Button>
             </EditorPage.Link>
           </div>
         </Card>

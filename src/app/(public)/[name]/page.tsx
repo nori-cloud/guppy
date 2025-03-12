@@ -5,6 +5,24 @@ import { getInitials } from "@/system/formatter"
 import { HomePage } from "@/system/route"
 import { redirect } from "next/navigation"
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ name: string }>
+}) {
+  const { name } = await params
+
+  const profile = await profileDB.getByName(name)
+
+  if (!profile) {
+    redirect(HomePage.Url())
+  }
+
+  return {
+    title: profile.title ?? profile.name,
+  }
+}
+
 export default async function PublicProfilePage({
   params,
 }: {

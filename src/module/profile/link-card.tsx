@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Icon } from "@/components/ui/icon"
 import { type Link } from "@/db/model"
-import { getInitials } from "@/system/formatter"
+import { formatPlaytime, getInitials } from "@/system/formatter"
 import { getSteamLinkInfo } from "./action"
 
 export async function LinkCard({ link }: { link: Link }) {
@@ -128,18 +128,35 @@ async function SteamLink({ link }: { link: Link }) {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2">
-        {steamInfo.recentlyPlayedGames.map((game) => (
-          <div key={game.appid} className="flex items-center gap-1">
-            <img
-              src={`http://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`}
-              alt={game.name}
-              className="size-5"
-            />
-            <p className="text-sm">{`${game.name} (${Math.floor(game.playtime_forever / 60)} hours)`}</p>
+      {steamInfo.visibility === "public" && (
+        <div className="flex w-full flex-col items-center gap-2">
+          <p className="text-muted-foreground text-xs">
+            {`Recently Played Games`}
+          </p>
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 self-stretch">
+            {steamInfo.recentlyPlayedGames.map((game) => (
+              <div
+                key={game.appid}
+                className="relative flex items-center gap-1"
+              >
+                <img src={game.banner} alt={game.name} className="rounded-md" />
+
+                <div className="absolute inset-x-0 top-1/2 bottom-0 flex items-end justify-end bg-gradient-to-t from-black/80 to-transparent p-1">
+                  <p className="text-sm">
+                    {formatPlaytime(game.playtime_2weeks)}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+
+      {steamInfo.visibility === "private" && (
+        <div className="text-muted-foreground flex items-center justify-center text-sm">
+          {"Looks like this is a private profile"}
+        </div>
+      )}
 
       {/* <pre className="h-40 w-full overflow-auto text-wrap">
         {JSON.stringify(steamInfo, null, 2)}

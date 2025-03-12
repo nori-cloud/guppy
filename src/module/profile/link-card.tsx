@@ -4,7 +4,8 @@ import { Icon } from "@/components/ui/icon"
 import { type Link } from "@/db/model"
 import { cn } from "@/lib/utils"
 import { formatPlaytime, getInitials } from "@/system/formatter"
-import { getSteamLinkInfo } from "./action"
+import { Suspense } from "react"
+import { getSteamLinkInfo, SteamLinkInfo } from "./action"
 
 export async function LinkCard({ link }: { link: Link }) {
   switch (link.type) {
@@ -100,13 +101,57 @@ function ImageLink({ link }: { link: Link }) {
 }
 
 async function SteamLink({ link }: { link: Link }) {
-  const steamInfo = await getSteamLinkInfo(link.url)
+  const steamInfoPromise = getSteamLinkInfo(link.url)
+
+  // Show loading skeleton while data is being fetched
+  return (
+    <Suspense fallback={<SteamLinkSkeleton />}>
+      <SteamLinkContent steamInfoPromise={steamInfoPromise} url={link.url} />
+    </Suspense>
+  )
+}
+
+// Skeleton loader for SteamLink
+function SteamLinkSkeleton() {
+  return (
+    <LinkContainer className="flex-col p-2 dark:hover:bg-zinc-800">
+      <div className="flex items-center gap-2">
+        <div className="size-12 animate-pulse rounded-full bg-gray-200 dark:bg-zinc-700" />
+        <div className="space-y-2">
+          <div className="h-4 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700" />
+          <div className="h-3 w-32 animate-pulse rounded bg-gray-200 dark:bg-zinc-700" />
+        </div>
+      </div>
+      <div className="mt-4 space-y-2">
+        <div className="mx-auto h-3 w-32 animate-pulse rounded bg-gray-200 dark:bg-zinc-700" />
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
+          {[1, 2].map((i) => (
+            <div
+              key={i}
+              className="aspect-[460/215] animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+            />
+          ))}
+        </div>
+      </div>
+    </LinkContainer>
+  )
+}
+
+// Component to handle Steam data display
+async function SteamLinkContent({
+  steamInfoPromise,
+  url,
+}: {
+  steamInfoPromise: Promise<SteamLinkInfo>
+  url: string
+}) {
+  const steamInfo = await steamInfoPromise
 
   if (!steamInfo) {
     return (
       <LinkContainer className="p-3 text-sm dark:hover:bg-zinc-800">
         {`Something went wrong when fetching data from Steam, check if your Steam
-        ID is correct! [${link.url}]`}
+        ID is correct! [${url}]`}
       </LinkContainer>
     )
   }

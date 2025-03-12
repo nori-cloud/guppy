@@ -1,6 +1,7 @@
 'use server'
 import * as SteamAPI from "../editor/connection-provider/steam"
 
+export type SteamLinkInfo = Awaited<ReturnType<typeof getSteamLinkInfo>>
 export async function getSteamLinkInfo(steamId: string) {
   const playerSummaryResponse = await SteamAPI.GetPlayerSummary(steamId)
 

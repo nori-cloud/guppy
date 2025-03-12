@@ -100,7 +100,7 @@ async function SteamLink({ link }: { link: Link }) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 overflow-clip rounded-lg bg-zinc-800 p-4 transition-colors hover:bg-zinc-700">
+    <div className="flex flex-col items-center justify-center gap-4 overflow-clip rounded-lg bg-zinc-800 p-2 transition-colors">
       <div className="flex items-center gap-2">
         <Avatar className="size-12">
           <AvatarImage src={steamInfo.player.avatarfull} />
@@ -135,18 +135,26 @@ async function SteamLink({ link }: { link: Link }) {
           </p>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 self-stretch">
             {steamInfo.recentlyPlayedGames.map((game) => (
-              <div
+              <a
                 key={game.appid}
-                className="relative flex items-center gap-1"
+                href={game.store_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex cursor-pointer items-center gap-1 overflow-clip rounded-md"
               >
-                <img src={game.banner} alt={game.name} className="rounded-md" />
+                <div className="absolute inset-0 flex items-center justify-center gap-1 rounded-md bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  {"Steam Store"}
+                  <Icon icon="external-link" className="size-4" />
+                </div>
+
+                <img src={game.banner} alt={game.name} />
 
                 <div className="absolute inset-x-0 top-1/2 bottom-0 flex items-end justify-end bg-gradient-to-t from-black/80 to-transparent p-1">
                   <p className="text-sm">
                     {formatPlaytime(game.playtime_2weeks)}
                   </p>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

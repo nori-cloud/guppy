@@ -45,7 +45,8 @@ export async function getSteamLinkInfo(steamId: string) {
       icon: `http://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`,
       playtime_2weeks: game.playtime_2weeks,
       playtime_forever: game.playtime_forever,
-      banner: product.header_image
+      banner: product.header_image,
+      store_url: `https://store.steampowered.com/app/${game.appid}`,
     }
   }).filter(game => !!game)
 

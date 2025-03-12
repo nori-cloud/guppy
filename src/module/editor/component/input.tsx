@@ -55,7 +55,7 @@ export function EditableInput({
     setValue(e.target.value)
     setError(null)
     if (schema) {
-      const result = schema.safeParse(value)
+      const result = schema.safeParse(e.target.value)
       if (!result.success) {
         setError(result.error.errors[0].message)
       }

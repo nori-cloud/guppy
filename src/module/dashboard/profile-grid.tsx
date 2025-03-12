@@ -73,7 +73,6 @@ function CreateProfileForm({
       startValidateProfileNameTransition(async () => {
         const isValid = await validateProfileName(name)
         setIsProfileNameValid(isValid)
-        setProfileName("")
         setIsDirty(false)
       })
     }, 500)

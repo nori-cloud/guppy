@@ -15,7 +15,6 @@ import {
 import { ThemeToggle } from "@/system/theme"
 import { redirect } from "next/navigation"
 import React from "react"
-
 export default async function Layout({
   children,
   params,
@@ -40,8 +39,8 @@ export default async function Layout({
       <div className="flex flex-1 flex-col-reverse gap-4 md:flex-row md:divide-x md:overflow-hidden">
         {children}
 
-        <div className="flex flex-2 items-center justify-center p-6">
-          <DevicePreview profileName={profile.name} />
+        <div className="flex flex-2 items-center justify-center p-4">
+          <DevicePreview profileName={name} />
         </div>
       </div>
     </div>

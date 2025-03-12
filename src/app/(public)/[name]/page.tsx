@@ -9,6 +9,10 @@ import { redirect } from "next/navigation"
 export const revalidate = 60
 export const dynamicParams = true
 
+export async function generateStaticParams() {
+  return []
+}
+
 export async function generateMetadata({
   params,
 }: {

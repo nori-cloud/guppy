@@ -44,7 +44,7 @@ export default async function PublicProfilePage({
   const title = profile.title ?? profile.name
 
   return (
-    <main className="absolute inset-0 flex flex-col items-center px-4 pt-[10%]">
+    <main className="absolute inset-0 mx-auto flex max-w-5xl flex-col items-center px-4 pt-[10%]">
       {canEdit && (
         <EditorPage.Link name={profile.name}>
           <Button className="absolute top-2 left-2">

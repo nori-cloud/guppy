@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Icon } from "@/components/ui/icon"
 import { type Link } from "@/db/model"
+import { cn } from "@/lib/utils"
 import { formatPlaytime, getInitials } from "@/system/formatter"
 import { getSteamLinkInfo } from "./action"
 
@@ -23,9 +24,28 @@ export async function LinkCard({ link }: { link: Link }) {
   }
 }
 
+function LinkContainer({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
+  return (
+    <div
+      className={cn(
+        "flex items-center justify-between gap-1 overflow-clip rounded-lg p-1 transition-colors dark:bg-zinc-800 dark:hover:bg-zinc-700",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  )
+}
+
 function GenericLink({ link }: { link: Link }) {
   return (
-    <div className="flex items-center justify-between gap-1 overflow-clip rounded-lg bg-zinc-800 p-1 transition-colors hover:bg-zinc-700">
+    <LinkContainer>
       <a
         href={link.url}
         target="_blank"
@@ -34,7 +54,7 @@ function GenericLink({ link }: { link: Link }) {
       >
         {link.title}
       </a>
-    </div>
+    </LinkContainer>
   )
 }
 
@@ -43,7 +63,7 @@ function YoutubeLink({ link }: { link: Link }) {
   const videoId = extractYoutubeVideoId(link.url)
 
   return (
-    <div className="flex items-center justify-between gap-1 overflow-clip rounded-lg bg-zinc-800 p-1 transition-colors hover:bg-zinc-700">
+    <LinkContainer>
       <div className="aspect-video w-full">
         <iframe
           className="h-full w-full rounded-md"
@@ -53,7 +73,7 @@ function YoutubeLink({ link }: { link: Link }) {
           allowFullScreen
         />
       </div>
-    </div>
+    </LinkContainer>
   )
 }
 
@@ -77,13 +97,13 @@ function extractYoutubeVideoId(url: string): string {
 
 function ImageLink({ link }: { link: Link }) {
   return (
-    <div className="flex items-center justify-between gap-1 overflow-clip rounded-lg bg-zinc-800 p-1 transition-colors hover:bg-zinc-700">
+    <LinkContainer>
       <img
         src={link.url}
         alt={link.title}
         className="h-full w-full rounded-md object-contain"
       />
-    </div>
+    </LinkContainer>
   )
 }
 
@@ -92,15 +112,15 @@ async function SteamLink({ link }: { link: Link }) {
 
   if (!steamInfo) {
     return (
-      <div className="flex flex-col items-center justify-between gap-1 overflow-clip rounded-lg bg-zinc-800 p-3 text-sm transition-colors hover:bg-zinc-700">
+      <LinkContainer className="p-3 text-sm dark:hover:bg-zinc-800">
         {`Something went wrong when fetching data from Steam, check if your Steam
         ID is correct! [${link.url}]`}
-      </div>
+      </LinkContainer>
     )
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 overflow-clip rounded-lg bg-zinc-800 p-2 transition-colors">
+    <LinkContainer className="p-2 dark:hover:bg-zinc-800">
       <div className="flex items-center gap-2">
         <Avatar className="size-12">
           <AvatarImage src={steamInfo.player.avatarfull} />
@@ -169,6 +189,6 @@ async function SteamLink({ link }: { link: Link }) {
       {/* <pre className="h-40 w-full overflow-auto text-wrap">
         {JSON.stringify(steamInfo, null, 2)}
       </pre> */}
-    </div>
+    </LinkContainer>
   )
 }

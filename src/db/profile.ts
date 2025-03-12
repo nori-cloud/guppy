@@ -87,10 +87,26 @@ async function remove(id: string) {
   })
 }
 
+async function matchUserToProfile(userId: string, profileId: string) {
+  const userToProfile = await db.query.usersToProfiles.findFirst({
+    where: (usersToProfiles, { eq }) =>
+      eq(usersToProfiles.userId, userId) &&
+      eq(usersToProfiles.profileId, profileId),
+  })
+
+  if (!userToProfile) {
+    return false
+  }
+
+  return true
+
+}
+
 export const profileDB = {
   create,
   getById,
   getByName,
   update,
   remove,
+  matchUserToProfile,
 }

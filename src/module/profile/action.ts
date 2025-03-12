@@ -1,5 +1,25 @@
 'use server'
+import { profileDB } from "@/db/profile"
+import { getCurrentUser } from "@/db/user"
 import * as SteamAPI from "../editor/connection-provider/steam"
+
+
+export async function checkCurrentUserCanEditProfile(name: string) {
+  const currentUser = await getCurrentUser()
+
+  if (!currentUser) {
+    return false
+  }
+
+  const profile = await profileDB.getByName(name)
+
+  if (!profile) {
+    return false
+  }
+
+  return profileDB.matchUserToProfile(currentUser.id, profile.id)
+}
+
 
 export type SteamLinkInfo = Awaited<ReturnType<typeof getSteamLinkInfo>>
 export async function getSteamLinkInfo(steamId: string) {

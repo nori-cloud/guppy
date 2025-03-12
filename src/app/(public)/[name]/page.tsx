@@ -1,8 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Icon } from "@/components/ui/icon"
 import { profileDB } from "@/db/profile"
+import { checkCurrentUserCanEditProfile } from "@/module/profile/action"
 import { LinkCard } from "@/module/profile/link-card"
 import { getInitials } from "@/system/formatter"
-import { HomePage } from "@/system/route"
+import { EditorPage, HomePage } from "@/system/route"
 import { ThemeToggle } from "@/system/theme"
 import { redirect } from "next/navigation"
 
@@ -37,16 +40,23 @@ export default async function PublicProfilePage({
     redirect(HomePage.Url())
   }
 
+  const canEdit = await checkCurrentUserCanEditProfile(name)
   const title = profile.title ?? profile.name
-
-  const initials = getInitials(title)
 
   return (
     <main className="absolute inset-0 flex flex-col items-center px-4 pt-[10%]">
+      {canEdit && (
+        <EditorPage.Link name={profile.name}>
+          <Button className="absolute top-2 left-2">
+            <Icon icon="editor" />
+          </Button>
+        </EditorPage.Link>
+      )}
+
       <div className="mb-8 flex flex-col items-center gap-2">
         <Avatar className="size-16">
           <AvatarImage src={profile.image ?? undefined} />
-          <AvatarFallback>{initials}</AvatarFallback>
+          <AvatarFallback>{getInitials(title)}</AvatarFallback>
         </Avatar>
         <h2 className="text-lg font-medium">{title}</h2>
         <p className="text-muted-foreground text-sm">{profile.bio}</p>

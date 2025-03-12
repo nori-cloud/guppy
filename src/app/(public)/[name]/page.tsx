@@ -4,9 +4,9 @@ import { Icon } from "@/components/ui/icon"
 import { profileDB } from "@/db/profile"
 import { checkCurrentUserCanEditProfile } from "@/module/profile/action"
 import { LinkCard } from "@/module/profile/link-card"
+import { ShareButton } from "@/module/profile/share-button"
 import { getInitials } from "@/system/formatter"
-import { EditorPage, HomePage } from "@/system/route"
-import { ThemeToggle } from "@/system/theme"
+import { EditorPage, HomePage, ProfilePage } from "@/system/route"
 import { redirect } from "next/navigation"
 
 export async function generateMetadata({
@@ -70,7 +70,10 @@ export default async function PublicProfilePage({
           ))}
       </div>
 
-      <ThemeToggle className="absolute top-2 right-2" />
+      <ShareButton
+        className="absolute top-2 right-2"
+        url={ProfilePage.Url({ name: profile.name })}
+      />
 
       <div className="bg-background sticky bottom-0 mt-auto flex w-full items-center justify-center gap-1 py-3 text-xs">
         {"Power by "}

@@ -30,8 +30,7 @@ export function ShareButton({
   // Check if web share API is available when component mounts
   useEffect(() => {
     setIsWebShareAvailable(
-      false,
-      // typeof navigator !== "undefined" && !!navigator.share,
+      typeof navigator !== "undefined" && !!navigator.share,
     )
   }, [])
 

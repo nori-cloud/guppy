@@ -1,15 +1,5 @@
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Icon, SocialIcon } from "@/components/ui/icon"
-import { Link } from "@/db/model"
-import {
-  createLink,
-  getProfileByName,
-  removeLink,
-  reorderLinks,
-  updateLink,
-} from "@/module/editor/action"
-import { SortableLinkList } from "@/module/editor/sortable-link-list"
+import { getProfileByName } from "@/module/editor/action"
+import { OptimisticLinkEditor } from "@/module/editor/optimistic-link-editor"
 import { EditorPage } from "@/system/route"
 
 export const metadata = EditorPage.Metadata
@@ -23,78 +13,5 @@ export default async function Page({
 
   const profile = await getProfileByName(name)
 
-  const handleCreateEmptyLink = async (type: Link["type"]) => {
-    "use server"
-
-    const title = ["steam"].includes(type) ? type : ""
-
-    await createLink({
-      profileId: profile.id,
-      title,
-      url: "",
-      type,
-      order: profile.links.length,
-    })
-  }
-
-  return (
-    <div className="flex flex-3 flex-col gap-6 p-6 md:overflow-y-auto">
-      <Card className="flex-row flex-wrap gap-4 p-4">
-        <form
-          action={async () => {
-            "use server"
-
-            await handleCreateEmptyLink("generic")
-          }}
-        >
-          <Button type="submit">
-            <Icon icon="generic" /> New Link
-          </Button>
-        </form>
-
-        <form
-          action={async () => {
-            "use server"
-
-            await handleCreateEmptyLink("youtube")
-          }}
-        >
-          <Button type="submit">
-            <SocialIcon social="youtube" /> Youtube
-          </Button>
-        </form>
-
-        <form
-          action={async () => {
-            "use server"
-
-            await handleCreateEmptyLink("image")
-          }}
-        >
-          <Button type="submit">
-            <Icon icon="image" /> Image
-          </Button>
-        </form>
-
-        <form
-          action={async () => {
-            "use server"
-
-            await handleCreateEmptyLink("steam")
-          }}
-        >
-          <Button type="submit">
-            <SocialIcon social="steam" /> Steam
-          </Button>
-        </form>
-      </Card>
-
-      <SortableLinkList
-        links={profile.links}
-        onOrderChange={reorderLinks}
-        onLinkUpdate={updateLink}
-        onLinkRemove={removeLink}
-      />
-    </div>
-  )
+  return <OptimisticLinkEditor links={profile.links} profile={profile} />
 }

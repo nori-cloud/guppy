@@ -22,6 +22,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
+import { useTransition } from "react"
 import { z } from "zod"
 import { EditableInput } from "./component/input"
 
@@ -36,6 +37,7 @@ export function SortableLinkList({
   onLinkUpdate: (link: Link) => void
   onLinkRemove: (id: number) => void
 }) {
+  const [isReordering, startReorderTransition] = useTransition()
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -55,7 +57,7 @@ export function SortableLinkList({
         order,
       }))
 
-      onOrderChange(newItems)
+      startReorderTransition(() => onOrderChange(newItems))
     }
   }
 
@@ -91,6 +93,9 @@ function SortableLinkCard({
   onLinkUpdate,
   onLinkRemove,
 }: SortableCardProps) {
+  const [isUpdating, startUpdateTransition] = useTransition()
+  const [isRemoving, startRemoveTransition] = useTransition()
+
   const {
     attributes,
     listeners,
@@ -114,7 +119,11 @@ function SortableLinkCard({
       <CardHeader className="flex flex-row items-center justify-between">
         <EditableInput
           disabled={link.type === "steam"}
-          onSave={(title) => onLinkUpdate({ ...link, title })}
+          onSave={(title) => {
+            startUpdateTransition(() => {
+              onLinkUpdate({ ...link, title })
+            })
+          }}
           defaultValue={link.title}
         />
 
@@ -130,7 +139,9 @@ function SortableLinkCard({
 
       <CardContent className="">
         <EditableInput
-          onSave={(url) => onLinkUpdate({ ...link, url })}
+          onSave={(url) => {
+            startUpdateTransition(() => onLinkUpdate({ ...link, url }))
+          }}
           defaultValue={link.url}
           className="break-all"
           schema={
@@ -147,14 +158,16 @@ function SortableLinkCard({
             disabled={!link.title || !link.url}
             name="enable"
             checked={link.enabled}
-            onCheckedChange={(enabled) => onLinkUpdate({ ...link, enabled })}
+            onCheckedChange={(enabled) => {
+              startUpdateTransition(() => onLinkUpdate({ ...link, enabled }))
+            }}
           />
         </div>
 
         <Button
           variant="destructive"
           className="size-8"
-          onClick={() => onLinkRemove(link.id)}
+          onClick={() => startRemoveTransition(() => onLinkRemove(link.id))}
         >
           <Icon icon="trash" />
         </Button>

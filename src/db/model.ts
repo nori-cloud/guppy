@@ -16,4 +16,6 @@ export type UpdateProfileInput = Omit<InferSelectModel<typeof profiles>, 'create
 
 export type UpdateLinkInput = Omit<InferSelectModel<typeof links>, 'createdAt' | 'updatedAt' | 'profileId'>
 export type CreateLinkInput = InferInsertModel<typeof links>
-export type Link = Profile["links"][number]
+
+export type { LinkType } from "./schema"
+export type Link = Omit<Profile["links"][number], "createdAt" | "updatedAt">

@@ -37,7 +37,7 @@ export function SortableLinkList({
   onLinkUpdate: (link: Link) => void
   onLinkRemove: (id: number) => void
 }) {
-  const [isReordering, startReorderTransition] = useTransition()
+  const [, startReorderTransition] = useTransition()
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -93,8 +93,8 @@ function SortableLinkCard({
   onLinkUpdate,
   onLinkRemove,
 }: SortableCardProps) {
-  const [isUpdating, startUpdateTransition] = useTransition()
-  const [isRemoving, startRemoveTransition] = useTransition()
+  const [, startUpdateTransition] = useTransition()
+  const [, startRemoveTransition] = useTransition()
 
   const {
     attributes,

@@ -103,7 +103,7 @@ export function OptimisticLinkEditor({
       </Card>
 
       <SortableLinkList
-        links={profile.links}
+        links={optimisticLinks}
         onOrderChange={handleOptimisticReorder}
         onLinkUpdate={handleOptimisticUpdate}
         onLinkRemove={handleOptimisticRemove}

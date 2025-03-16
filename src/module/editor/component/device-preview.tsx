@@ -55,23 +55,16 @@ const devicePresets = {
 type DeviceType = keyof typeof devicePresets
 
 interface DevicePreviewProps {
-  profileName: string
+  children: React.ReactNode
 }
 
-export function DevicePreview({ profileName }: DevicePreviewProps) {
+export function DevicePreview({ children }: DevicePreviewProps) {
   const [selectedDevice, setSelectedDevice] =
     useState<DeviceType>("Nothing Phone 2")
-  const [iframeUrl, setIframeUrl] = useState<string>("")
   const [scale, setScale] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
   const { width, height, className, containerClassName, contentClassName } =
     devicePresets[selectedDevice]
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIframeUrl(`${window.location.origin}/${profileName}`)
-    }
-  }, [profileName])
 
   // Calculate scale based on container height
   useEffect(() => {
@@ -168,19 +161,7 @@ export function DevicePreview({ profileName }: DevicePreviewProps) {
               contentClassName,
             )}
           >
-            {iframeUrl && (
-              <iframe
-                src={iframeUrl}
-                className="h-full w-full border-0"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                }}
-                title={`${selectedDevice} preview`}
-                sandbox="allow-same-origin allow-scripts allow-forms"
-                referrerPolicy="same-origin"
-              />
-            )}
+            {children}
           </div>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import PublicProfilePage from "@/app/(public)/[name]/page"
 import { Button } from "@/components/ui/button"
 import { Icon } from "@/components/ui/icon"
 import { CurrentUser, Profile } from "@/db/model"
@@ -40,7 +41,9 @@ export default async function Layout({
         {children}
 
         <div className="flex flex-2 items-center justify-center p-4">
-          <DevicePreview profileName={name} />
+          <DevicePreview>
+            <PublicProfilePage params={params} />
+          </DevicePreview>
         </div>
       </div>
     </div>

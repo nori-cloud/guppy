@@ -9,46 +9,27 @@ import {
 import { cn } from "@/lib/utils"
 import { useEffect, useRef, useState } from "react"
 
-const containerClassName =
-  "rounded-4xl border-4 border-foreground shadow-md shadow-foreground p-2"
-
 // Define device presets with their respective properties
 const devicePresets = {
   "iPhone 16 Pro": {
     width: 1179,
     height: 2556,
     className: "w-72 md:w-80 max-w-full",
-    containerClassName,
-    contentClassName: "rounded-[26px]",
-    userAgent:
-      "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
   },
   "Pixel 2": {
     width: 1080,
     height: 1920,
     className: "w-64 md:w-72 max-w-full",
-    containerClassName,
-    contentClassName: "rounded-[18px]",
-    userAgent:
-      "Mozilla/5.0 (Linux; Android 11; Pixel 2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36",
   },
   "Pixel 9": {
     width: 1080,
     height: 2340,
     className: "w-64 md:w-72 max-w-full",
-    containerClassName,
-    contentClassName: "rounded-[20px]",
-    userAgent:
-      "Mozilla/5.0 (Linux; Android 14; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
   },
   "Nothing Phone 2": {
     width: 1080,
     height: 2412,
     className: "w-64 md:w-72 max-w-full",
-    containerClassName,
-    contentClassName: "rounded-[24px]",
-    userAgent:
-      "Mozilla/5.0 (Linux; Android 13; Nothing Phone 2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36",
   },
 }
 
@@ -63,8 +44,7 @@ export function DevicePreview({ children }: DevicePreviewProps) {
     useState<DeviceType>("Nothing Phone 2")
   const [scale, setScale] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
-  const { width, height, className, containerClassName, contentClassName } =
-    devicePresets[selectedDevice]
+  const { width, height, className } = devicePresets[selectedDevice]
 
   // Calculate scale based on container height
   useEffect(() => {
@@ -132,34 +112,18 @@ export function DevicePreview({ children }: DevicePreviewProps) {
         className="flex w-full flex-1 items-center justify-center overflow-auto"
         style={{ maxHeight: "calc(100% - 60px)" }}
       >
-        <div
-          className={cn(
-            "relative transform-gpu overflow-hidden shadow-lg transition-all",
-            className,
-            containerClassName,
-          )}
-          style={{
-            aspectRatio: `${width} / ${height}`,
-            transform: scale < 1 ? `scale(${scale})` : "none",
-            transformOrigin: "center top",
-            maxHeight: "100%",
-          }}
-        >
-          {/* Status bar for mobile devices */}
-          {selectedDevice.includes("iPhone") ||
-          selectedDevice.includes("Pixel") ||
-          selectedDevice.includes("Nothing") ? (
-            <div className="absolute top-0 right-0 left-0 z-10 flex h-6 items-center justify-between px-5">
-              <div className="absolute top-0 left-1/2 h-4 w-16 -translate-x-1/2 rounded-b-xl bg-black"></div>
-            </div>
-          ) : null}
-
-          {/* Actual content container */}
+        <div className="border-foreground shadow-foreground rounded-4xl border-4 p-2 shadow-md">
           <div
             className={cn(
-              "bg-background h-full w-full overflow-hidden",
-              contentClassName,
+              "scrollbar-hidden relative transform-gpu overflow-y-auto shadow-lg transition-all",
+              className,
             )}
+            style={{
+              aspectRatio: `${width} / ${height}`,
+              transform: scale < 1 ? `scale(${scale})` : "none",
+              transformOrigin: "center top",
+              maxHeight: "100%",
+            }}
           >
             {children}
           </div>

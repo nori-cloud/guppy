@@ -79,6 +79,13 @@ export default function IndexPage() {
           </p>
         </section>
       </main>
+
+      <footer className="container mx-auto mt-24 px-4">
+        <p className="text-muted-foreground text-center">
+          &copy; {new Date().getFullYear()} Guppy is part of the Koukou Social
+          Platform collection. Developed and Owned by Koukou Pty Ltd.
+        </p>
+      </footer>
     </div>
   )
 }

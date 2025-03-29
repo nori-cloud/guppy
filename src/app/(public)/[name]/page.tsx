@@ -58,8 +58,10 @@ export default async function PublicProfilePage({
           <AvatarImage src={profile.image ?? undefined} />
           <AvatarFallback>{getInitials(title)}</AvatarFallback>
         </Avatar>
-        <h2 className="text-lg font-medium">{title}</h2>
-        <p className="text-muted-foreground text-sm">{profile.bio}</p>
+        <h2 className="text-center text-lg font-medium">{title}</h2>
+        <p className="text-muted-foreground text-center text-sm">
+          {profile.bio}
+        </p>
       </div>
 
       <div className="flex w-full max-w-2xl flex-1 flex-col gap-3 pb-24">

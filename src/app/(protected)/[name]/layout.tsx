@@ -1,7 +1,7 @@
-import PublicProfilePage from "@/app/(public)/[name]/page"
+import { ProfileContainer } from "@/app/(public)/[name]/profile-container"
 import { Button } from "@/components/ui/button"
 import { Icon } from "@/components/ui/icon"
-import { CurrentUser, Profile } from "@/db/model"
+import type { CurrentUser, Profile } from "@/db/model"
 import { getCurrentUser } from "@/db/user"
 import { UserMenu } from "@/module/dashboard/user-menu"
 import { getProfileByName } from "@/module/editor/action"
@@ -16,6 +16,7 @@ import {
 import { ThemeToggle } from "@/system/theme"
 import { redirect } from "next/navigation"
 import React from "react"
+
 export default async function Layout({
   children,
   params,
@@ -42,7 +43,7 @@ export default async function Layout({
 
         <div className="flex flex-2 items-center justify-center p-4">
           <DevicePreview>
-            <PublicProfilePage params={params} />
+            <ProfileContainer profile={profile} canEdit={false} />
           </DevicePreview>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { Env } from "./env"
 const client = umami.getClient({
   userId: Env.Umami.ClientUserId,
   secret: Env.Umami.ClientSecret,
-  apiEndpoint: `${Env.Umami.Endpoint}/api`,
+  apiEndpoint: Env.Umami.APIEndpoint,
 })
 
 async function createWebsite({

@@ -160,8 +160,12 @@ function CreateProfileForm({
 
 export function ProfileGrid({
   profiles,
+  onCreateProfile,
+  onDeleteProfile,
 }: {
-  profiles: Omit<Profile, "links" | "bio" | "createdAt" | "updatedAt">[]
+  profiles: Omit<Profile, "links" | "bio" | "createdAt" | "updatedAt" | "trackingId">[]
+  onCreateProfile: (name: string) => Promise<void>
+  onDeleteProfile: (id: string) => Promise<void>
 }) {
   const [optimisticProfiles, setOptimisticProfiles] = useOptimistic(profiles)
 
@@ -170,14 +174,14 @@ export function ProfileGrid({
       ...optimisticProfiles,
       { id: "optimistic", name, image: null, role: "owner", title: name },
     ])
-    await createProfile(name)
+    await onCreateProfile(name)
   }
 
   const handleOptimisticDeleteProfile = async (id: string) => {
     setOptimisticProfiles(
       optimisticProfiles.filter((profile) => profile.id !== id),
     )
-    await deleteProfile(id)
+    await onDeleteProfile(id)
   }
 
   return (

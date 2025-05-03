@@ -8,6 +8,7 @@ import { ShareButton } from "@/module/profile/share-button"
 import { getInitials } from "@/system/formatter"
 import { EditorPage, HomePage, ProfilePage } from "@/system/route"
 import { redirect } from "next/navigation"
+import Script from "next/script"
 
 export async function generateMetadata({
   params,
@@ -45,6 +46,10 @@ export default async function PublicProfilePage({
 
   return (
     <main className="absolute inset-0 mx-auto flex max-w-5xl flex-col items-center px-4 pt-[10%]">
+      {profile.trackingId && (
+        <Script defer src="http://localhost:4000/script.js" data-website-id={profile.trackingId} />
+      )}
+
       {canEdit && (
         <EditorPage.Link name={profile.name}>
           <Button className="absolute top-2 left-2">

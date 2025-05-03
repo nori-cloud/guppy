@@ -102,6 +102,7 @@ export const profiles = pgTable("profile", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
+  trackingId: text("trackingId").unique(),
   name: text("name").notNull().unique(),
   title: text("title"),
   bio: text("bio"),

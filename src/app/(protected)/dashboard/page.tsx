@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { profileDB } from "@/db/profile"
 import { getCurrentUser } from "@/db/user"
+import { createProfile, deleteProfile } from "@/module/dashboard/action"
 import { ProfileGrid } from "@/module/dashboard/profile-grid"
 import { UserMenu } from "@/module/dashboard/user-menu"
 import { DashboardPage } from "@/system/route"
@@ -18,6 +18,16 @@ export default async function Page() {
 
   const hasProfile = currentUser?.profiles.length > 0
 
+  const handleCreateProfile = async (name: string) => {
+    "use server"
+    await createProfile({userId: currentUser.id, profileName: name})
+  }
+  
+  const handleDeleteProfile = async (id: string) => {
+    "use server"
+    await deleteProfile(id)
+  }
+
   return (
     <div className="mx-auto h-screen max-w-5xl px-8 pt-12">
       <p className="text-2xl">Welcome! {currentUser.name}</p>
@@ -26,9 +36,9 @@ export default async function Page() {
         <p className="text-4xl">Your Profiles</p>
 
         {hasProfile ? (
-          <ProfileGrid profiles={currentUser.profiles} />
+          <ProfileGrid profiles={currentUser.profiles} onCreateProfile={handleCreateProfile} onDeleteProfile={handleDeleteProfile} />
         ) : (
-          <InitialProfileForm />
+          <InitialProfileForm onCreate={handleCreateProfile} />
         )}
       </div>
 
@@ -37,13 +47,16 @@ export default async function Page() {
   )
 }
 
-function InitialProfileForm() {
+type InitialProfileFormProps = {
+  onCreate: (name: string) => Promise<void>
+}
+function InitialProfileForm({onCreate}: InitialProfileFormProps) {
   async function action(formData: FormData) {
     "use server"
 
-    await profileDB.create({
-      name: formData.get("name") as string,
-    })
+    const name = formData.get("name") as string
+
+    await onCreate(name)
 
     revalidatePath(DashboardPage.Url())
   }

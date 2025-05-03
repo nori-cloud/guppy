@@ -41,6 +41,7 @@ function GenericLink({ link }: { link: Link }) {
   return (
     <LinkContainer>
       <a
+        data-umami-event={`link-click-${link.id}`}
         href={link.url}
         target="_blank"
         rel="noopener noreferrer"

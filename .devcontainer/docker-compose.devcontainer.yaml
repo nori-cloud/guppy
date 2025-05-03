@@ -3,12 +3,16 @@ version: "3.8"
 services:
   guppy:
     image: mcr.microsoft.com/vscode/devcontainers/typescript-node
+    ports:
+      - 3000:3000
     volumes:
       - ../..:/workspaces:cached
-    network_mode: service:db
+    networks:
+      - guppy-network
+      - umami-network
     command: sleep infinity
 
-  db:
+  guppy-db:
     image: postgres:latest
     restart: unless-stopped
     volumes:
@@ -17,6 +21,38 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
+    networks:
+      - guppy-network
+
+  umami:
+    image: docker.umami.is/umami-software/umami:postgresql-latest
+    ports:
+    - 4000:3000
+    environment:
+      DATABASE_URL: postgresql://umami:umami@umami-db:5432/umami
+      DATABASE_TYPE: postgresql
+      APP_SECRET: xL1bbekT13g7aLN5jGzCWIZXZmpKsM/sMnIzinqQACE=
+    depends_on:
+      - umami-db
+    networks:
+      - guppy-network
+      - umami-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://localhost:3000/api/heartbeat"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  umami-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: umami
+    volumes:
+      - umami-data:/var/lib/postgresql/data
+    networks:
+      - umami-network
 
   pgadmin:
     image: dpage/pgadmin4
@@ -25,6 +61,16 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
+    networks:
+      - guppy-network
+      - umami-network
 
 volumes:
   postgres-data:
+  umami-data:
+
+networks:
+  guppy-network:
+    driver: bridge
+  umami-network:
+    driver: bridge

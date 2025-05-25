@@ -82,8 +82,8 @@ export default function IndexPage() {
 
       <footer className="container mx-auto mt-24 px-4">
         <p className="text-muted-foreground text-center">
-          &copy; {new Date().getFullYear()} Guppy is part of the Koukou Social
-          Platform collection. Developed and Owned by Koukou Pty Ltd.
+          &copy; {new Date().getFullYear()} Guppy is part of the Nori-Cloud
+          Collection. Developed and Owned by Nori-Cloud Pty Ltd.
         </p>
       </footer>
     </div>

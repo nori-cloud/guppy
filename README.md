@@ -34,3 +34,32 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## What environment variables are required for this app to run?
+
+The app reads configuration from environment variables defined in `src/system/env.ts` and `src/module/analytics/env.ts`.
+
+- **Required to boot the app**
+
+  - **DATABASE_URL**: Connection string for your database (used by Drizzle ORM).
+
+- **Authentication (NextAuth)**
+
+  - **NEXTAUTH_SECRET**: Required when using NextAuth to sign/encrypt session tokens.
+  - The following are required together only if OIDC login is enabled (all or none):
+    - **AUTH_OIDC_ID**
+    - **AUTH_OIDC_CLIENT_ID**
+    - **AUTH_OIDC_CLIENT_SECRET**
+    - **AUTH_OIDC_ISSUER**
+
+- **Integrations (optional)**
+
+  - **STEAM_API_KEY**: Enables Steam API features if provided.
+
+- **Analytics (Umami, optional)**
+  - **UMAMI_API_CLIENT_USER_ID**
+  - **UMAMI_API_CLIENT_SECRET**
+  - **UMAMI_API_ENDPOINT**
+  - **UMAMI_PUBLIC_ENDPOINT**
+
+see [.env.example](./.env.example) for more details

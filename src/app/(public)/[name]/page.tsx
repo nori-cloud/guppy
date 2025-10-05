@@ -1,10 +1,9 @@
 import { profileDB } from "@/db/profile"
-import { Env } from "@/module/analytics/env"
 import { checkCurrentUserCanEditProfile } from "@/module/profile/action"
 import { HomePage } from "@/system/route"
 import { redirect } from "next/navigation"
-import Script from "next/script"
 import { ProfileContainer } from "./profile-container"
+import { LoadAnalyticsScript } from "@/module/analytics/component"
 
 export async function generateMetadata({
   params,
@@ -42,11 +41,7 @@ export default async function PublicProfilePage({
   return (
     <>
       {profile.trackingId && (
-        <Script
-          defer
-          src={`${Env.Umami.PublicEndpoint}/script.js`}
-          data-website-id={profile.trackingId}
-        />
+        <LoadAnalyticsScript trackingId={profile.trackingId} />
       )}
       <ProfileContainer canEdit={canEdit} profile={profile} />
     </>

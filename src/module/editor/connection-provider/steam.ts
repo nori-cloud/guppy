@@ -1,4 +1,4 @@
-import { env } from "@/system/env"
+import { Steam } from "@/system/env"
 
 type SteamAPIResponse<T> = {
   response: T
@@ -16,8 +16,13 @@ type SteamGame = {
   playtime_deck_forever: number
 }
 export async function GetRecentlyPlayedGames(steamid: string) {
+  if (!Steam) {
+    console.error("Missing Steam API Key")
+    return { data: null, error: "STEAM_API_KEY is not set" } as const
+  }
+
   const params = new URLSearchParams({
-    key: env.Steam.APIKey,
+    key: Steam.APIKey,
     steamid,
     include_appinfo: "true",
   })
@@ -58,8 +63,13 @@ type SteamPlayer = {
   loccityid: number
 }
 export async function GetPlayerSummary(steamids: string) {
+  if (!Steam) {
+    console.error("Missing Steam API Key")
+    return { data: null, error: "STEAM_API_KEY is not set" } as const
+  }
+
   const params = new URLSearchParams({
-    key: env.Steam.APIKey,
+    key: Steam.APIKey,
     steamids,
   })
 

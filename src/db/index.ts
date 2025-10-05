@@ -1,10 +1,15 @@
-import { env } from "@/system/env"
 import { drizzle } from "drizzle-orm/node-postgres"
 import * as schema from "./schema"
+import { Drizzle } from "@/system/env"
 
-export const db = drizzle({
-  connection: {
-    connectionString: env.Drizzle.DatabaseUrl,
-  },
-  schema,
-})
+
+function getDb() {
+  return drizzle({
+    connection: {
+      connectionString: Drizzle.DatabaseUrl,
+    },
+    schema,
+  })
+}
+
+export const db = getDb()

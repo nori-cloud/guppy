@@ -1,39 +1,24 @@
-import { z } from "zod"
-const providersSchema = z.object({
-  ID: z.string(),
-  Secret: z.string(),
-})
+export const NextAuth = {
+  Secret: process.env.NEXTAUTH_SECRET,
+  OIDC:
+    !!process.env.AUTH_OIDC_ID &&
+      !!process.env.AUTH_OIDC_CLIENT_ID &&
+      !!process.env.AUTH_OIDC_CLIENT_SECRET &&
+      !!process.env.AUTH_OIDC_ISSUER
+      ? {
+        ID: process.env.AUTH_OIDC_ID,
+        ClientID: process.env.AUTH_OIDC_CLIENT_ID,
+        ClientSecret: process.env.AUTH_OIDC_CLIENT_SECRET,
+        Issuer: process.env.AUTH_OIDC_ISSUER,
+      }
+      : null,
+}
 
-const envSchema = z.object({
-  NextAuth: z.object({
-    Secret: z.string(),
-    Discord: providersSchema,
-    Github: providersSchema,
-  }),
-  Drizzle: z.object({
-    DatabaseUrl: z.string(),
-  }),
-  Steam: z.object({
-    APIKey: z.string(),
-  }),
-})
+export const Drizzle = {
+  DatabaseUrl: process.env.DATABASE_URL,
+}
 
-export const env = envSchema.parse({
-  NextAuth: {
-    Secret: process.env.NEXTAUTH_SECRET as string,
-    Discord: {
-      ID: process.env.AUTH_DISCORD_ID as string,
-      Secret: process.env.AUTH_DISCORD_SECRET as string,
-    },
-    Github: {
-      ID: process.env.AUTH_GITHUB_ID as string,
-      Secret: process.env.AUTH_GITHUB_SECRET as string,
-    },
-  },
-  Drizzle: {
-    DatabaseUrl: process.env.DATABASE_URL as string,
-  },
-  Steam: {
-    APIKey: process.env.STEAM_API_KEY as string,
-  },
-})
+
+export const Steam = process.env.STEAM_API_KEY ? {
+  APIKey: process.env.STEAM_API_KEY,
+} : null

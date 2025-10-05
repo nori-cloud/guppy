@@ -1,10 +1,10 @@
 import * as umami from "@umami/api-client"
-import { Env } from "./env"
+import { Umami } from "./env"
 
 const client = umami.getClient({
-  userId: Env.Umami.ClientUserId,
-  secret: Env.Umami.ClientSecret,
-  apiEndpoint: Env.Umami.APIEndpoint,
+  userId: Umami.ClientUserId,
+  secret: Umami.ClientSecret,
+  apiEndpoint: Umami.APIEndpoint,
 })
 
 async function createWebsite({

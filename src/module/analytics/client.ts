@@ -1,5 +1,4 @@
 import umami from "@umami/node"
-import { Env } from "./env"
 
 function init({ profileId }: { profileId: string }) {
   console.debug("Initializing umami tracking for profile", profileId)

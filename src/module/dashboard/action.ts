@@ -2,7 +2,7 @@
 import { profileDB } from "@/db/profile"
 import { DashboardPage } from "@/system/route"
 import { revalidatePath } from "next/cache"
-import { analyticsAPI } from "../analytics/api"
+import { registerProfile } from "../analytics/api"
 import { db } from "@/db"
 import { profiles } from "@/db/schema"
 import { usersToProfiles } from "@/db/schema"
@@ -29,17 +29,14 @@ export async function createProfile({
         role: "owner",
       })
 
-      const website = await analyticsAPI.createWebsite({
-        name: profile.id,
-        domain: `localhost:3000`,
-      })
-      
-      if (!website) {
-        throw new Error("Failed to create website on umami for tracking.")
+      const trackingId = await registerProfile(profile.id)
+
+      if (!trackingId) {
+        console.error(`Failed to create website on umami for tracking.`)
       }
 
       await tx.update(profiles).set({
-        trackingId: website.id,
+        trackingId,
       }).where(eq(profiles.id, profile.id))
 
       console.debug(`Profile created with name "${profileName}"`)

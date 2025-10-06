@@ -1,34 +1,42 @@
-import * as umami from "@umami/api-client"
+import type { User, Website } from "@umami/api-client"
 import { Umami } from "./env"
 
-const client = umami.getClient({
-  userId: Umami.ClientUserId,
-  secret: Umami.ClientSecret,
-  apiEndpoint: Umami.APIEndpoint,
-})
+export async function registerProfile(profileId: string) {
+  try {
+    const res = await fetch(`${Umami.Url}/api/auth/login`, {
+      method: "POST",
+      body: JSON.stringify({
+        username: Umami.Username,
+        password: Umami.Password,
+      }),
+    })
 
-async function createWebsite({
-  name,
-  domain,
-}: {
-  name: string
-  domain: string
-}) {
-  const result = await client.createWebsite({
-    name,
-    domain,
-  })
+    const { token, user } = await res.json() as {
+      token: string
+      user: User
+    }
 
-  console.debug("umami create website", { result })
+    console.debug("umami login", { token, user })
 
-  if (!result.ok) {
-    throw new Error(result.error)
+    const result = await fetch(`${Umami.Url}/api/websites`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name: profileId,
+        domain: Umami.BaseDomain || "localhost",
+      }),
+    })
+
+    const website = await result.json() as Website
+
+    console.debug("umami create website", { website })
+
+    return website.id as string
+  } catch (error) {
+    console.error("Error creating website", error)
+
+    return null
   }
-
-  return result.data
-}
-
-export const analyticsAPI = {
-  umami: client,
-  createWebsite,
 }

@@ -4,6 +4,19 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "src/**"
+      - "drizzle/**"
+      - "public/**"
+      - "Dockerfile"
+      - "Dockerfile.migrations"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "next.config.ts"
+      - "tsconfig.json"
+      - "drizzle.config.ts"
+      - "postcss.config.mjs"
+      - "components.json"
 
 env:
   REGISTRY: ghcr.io

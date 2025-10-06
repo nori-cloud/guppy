@@ -9,7 +9,7 @@ export const baseConfig: NextAuthConfig = {
   providers: getProviders(),
 }
 
-function getProviders() {
+export function getProviders() {
   const providers: NextAuthConfig['providers'] = []
 
   if (!!NextAuth.OIDC) {

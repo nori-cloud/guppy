@@ -8,7 +8,7 @@ export function LoadAnalyticsScript({ trackingId }: AnalyticsScriptProps) {
   return (
     <Script
       defer
-      src={`${Umami.PublicEndpoint}/script.js`}
+      src={`${Umami.Url}/script.js`}
       data-website-id={trackingId}
     />
   )

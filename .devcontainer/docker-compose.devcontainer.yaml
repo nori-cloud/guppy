@@ -8,51 +8,54 @@ services:
     volumes:
       - ../..:/workspaces:cached
     networks:
-      - guppy-network
-      - umami-network
+      - app-network
     command: sleep infinity
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/guppy
 
-  guppy-db:
+  postgres:
     image: postgres:latest
     restart: unless-stopped
+    ports:
+      - 5432:5432
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./init-db.sh:/usr/local/bin/init.sh
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
     networks:
-      - guppy-network
+      - app-network
+    entrypoint: ["/usr/local/bin/init.sh"]
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U postgres -d guppy && pg_isready -U postgres -d umami",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   umami:
     image: docker.umami.is/umami-software/umami:postgresql-latest
     ports:
-    - 4000:3000
+      - 4000:3000
     environment:
-      DATABASE_URL: postgresql://umami:umami@umami-db:5432/umami
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/umami
       DATABASE_TYPE: postgresql
       APP_SECRET: xL1bbekT13g7aLN5jGzCWIZXZmpKsM/sMnIzinqQACE=
     depends_on:
-      - umami-db
+      postgres:
+        condition: service_healthy
     networks:
-      - guppy-network
-      - umami-network
+      - app-network
     healthcheck:
       test: ["CMD-SHELL", "curl http://localhost:3000/api/heartbeat"]
       interval: 5s
       timeout: 5s
       retries: 5
-
-  umami-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: umami
-      POSTGRES_USER: umami
-      POSTGRES_PASSWORD: umami
-    volumes:
-      - umami-data:/var/lib/postgresql/data
-    networks:
-      - umami-network
 
   pgadmin:
     image: dpage/pgadmin4
@@ -62,15 +65,11 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     networks:
-      - guppy-network
-      - umami-network
+      - app-network
 
 volumes:
   postgres-data:
-  umami-data:
 
 networks:
-  guppy-network:
-    driver: bridge
-  umami-network:
+  app-network:
     driver: bridge

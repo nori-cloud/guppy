@@ -1,15 +1,16 @@
-export const NextAuth = {
-  Secret: process.env.NEXTAUTH_SECRET,
+export const BetterAuth = {
+  Secret: process.env.BETTER_AUTH_SECRET,
+  BaseUrl: process.env.BETTER_AUTH_URL,
   OIDC:
     !!process.env.AUTH_OIDC_ID &&
       !!process.env.AUTH_OIDC_CLIENT_ID &&
       !!process.env.AUTH_OIDC_CLIENT_SECRET &&
-      !!process.env.AUTH_OIDC_ISSUER
+      !!process.env.AUTH_OIDC_DISCOVERY_URL
       ? {
         ID: process.env.AUTH_OIDC_ID,
         ClientID: process.env.AUTH_OIDC_CLIENT_ID,
         ClientSecret: process.env.AUTH_OIDC_CLIENT_SECRET,
-        Issuer: process.env.AUTH_OIDC_ISSUER,
+        DiscoveryUrl: process.env.AUTH_OIDC_DISCOVERY_URL,
       }
       : null,
 }

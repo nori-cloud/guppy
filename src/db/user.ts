@@ -1,10 +1,10 @@
 'use server'
 
-import { auth } from "@/system/auth"
 import { db } from "."
+import { getSession } from "@/lib/auth-action"
 
 export async function getCurrentUser() {
-  const session = await auth()
+  const session = await getSession()
 
   if (!session?.user?.email) {
     return null
@@ -12,14 +12,14 @@ export async function getCurrentUser() {
 
   const { email } = session.user
 
-  const currentUser = await db.query.users.findFirst({
+  const currentUser = await db.query.user.findFirst({
     columns: {
       id: true,
       name: true,
       email: true,
       image: true,
     },
-    where: (users, { eq }) => eq(users.email, email),
+    where: (user, { eq }) => eq(user.email, email),
     with: {
       usersToProfiles: {
         with: {

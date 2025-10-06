@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button"
-import { auth } from "@/system/auth"
+import { getSession } from "@/lib/auth-action"
 import { DashboardPage, SignInPage } from "@/system/route"
 
 export async function AuthMenu() {
-  const session = await auth()
+  const session = await getSession()
 
   return (
     <div className="flex items-center gap-2">

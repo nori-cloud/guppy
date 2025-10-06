@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { CurrentUser } from "@/db/model"
 import { cn } from "@/lib/utils"
-import { signOut } from "@/system/auth"
 import { getInitials } from "@/system/formatter"
+import { SignOut } from "@/module/auth/component"
 
 export async function UserMenu({
   user,
@@ -37,20 +37,10 @@ export async function UserMenu({
       <DropdownMenuContent className="mx-4 my-2 w-56">
         <DropdownMenuLabel>{`Hi, ${user.name}!`}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <form
-          action={async () => {
-            "use server"
-
-            await signOut()
-          }}
-        >
-          <DropdownMenuItem asChild>
-            <button type="submit" className="w-full cursor-pointer">
-              Sign out
-            </button>
-            {/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
-          </DropdownMenuItem>
-        </form>
+        <DropdownMenuItem asChild>
+          <SignOut />
+          {/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

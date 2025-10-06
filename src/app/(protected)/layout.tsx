@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/db/user"
+import { getSession } from "@/lib/auth-action"
 import { SignInPage } from "@/system/route"
 import { redirect } from "next/navigation"
 import React from "react"
@@ -8,9 +8,9 @@ export default async function ProtectedLayout({
 }: {
   children: React.ReactNode
 }) {
-  const currentUser = await getCurrentUser()
+  const session = await getSession()
 
-  if (!currentUser) {
+  if (!session) {
     redirect(SignInPage.Url())
   }
 

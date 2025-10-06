@@ -11,4 +11,4 @@ RUN corepack enable pnpm && pnpm i --frozen-lockfile
 COPY drizzle ./drizzle
 COPY drizzle.config.ts ./drizzle.config.ts
 
-RUN ["pnpm", "drizzle-kit", "migrate"]
+CMD ["pnpm", "drizzle-kit", "migrate"]

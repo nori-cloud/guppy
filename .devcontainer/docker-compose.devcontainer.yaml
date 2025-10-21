@@ -2,7 +2,9 @@ version: "3.8"
 
 services:
   guppy:
-    image: mcr.microsoft.com/vscode/devcontainers/typescript-node
+    build:
+      context: ..
+      dockerfile: ./.devcontainer/Dockerfile
     ports:
       - 3000:3000
     volumes:

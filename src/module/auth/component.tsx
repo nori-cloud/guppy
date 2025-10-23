@@ -1,39 +1,26 @@
 "use client"
-
 import { Button } from "@/components/ui/button"
 import { authClient } from "@/lib/auth-client"
 import { DashboardPage, HomePage } from "@/system/route"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-export function SignInWithProvider({
-  providers,
-}: {
-  providers: {
-    providerId: string
-    name: string
-  }[]
-}) {
+export function SignIn() {
   const [isLoading, setIsLoading] = useState(false)
   return (
-    <div className="flex flex-col gap-4">
-      {providers.map(({ providerId, name }) => (
-        <Button
-          key={providerId}
-          type="submit"
-          onClick={async () => {
-            setIsLoading(true)
-            await authClient.signIn.oauth2({
-              providerId,
-              callbackURL: DashboardPage.Url(),
-            })
-            setIsLoading(false)
-          }}
-        >
-          {isLoading ? "Signing in..." : name}
-        </Button>
-      ))}
-    </div>
+    <Button
+      type="submit"
+      onClick={async () => {
+        setIsLoading(true)
+        await authClient.signIn.oauth2({
+          providerId: "nori-cloud",
+          callbackURL: DashboardPage.Url(),
+        })
+        setIsLoading(false)
+      }}
+    >
+      {isLoading ? "Signing in..." : "Sign In"}
+    </Button>
   )
 }
 
